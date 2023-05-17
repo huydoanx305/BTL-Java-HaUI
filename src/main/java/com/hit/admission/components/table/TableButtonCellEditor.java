@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
-import com.hit.admission.event.ButtonClickEvent;
+import com.hit.admission.event.EventButtonTableClick;
 
 /**
  *
@@ -14,9 +14,9 @@ public class TableButtonCellEditor extends DefaultCellEditor {
     
     private String text;
     
-    private ButtonClickEvent event;
+    private EventButtonTableClick event;
     
-    public TableButtonCellEditor(ButtonClickEvent event, String text) {
+    public TableButtonCellEditor(EventButtonTableClick event, String text) {
         super(new JCheckBox());
         this.event = event;
         this.text = text;

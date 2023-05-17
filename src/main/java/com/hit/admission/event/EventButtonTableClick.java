@@ -4,7 +4,7 @@ package com.hit.admission.event;
  *
  * @author Huy Doan
  */
-public interface ButtonClickEvent {
+public interface EventButtonTableClick {
 
     public void onClick(int row);
     

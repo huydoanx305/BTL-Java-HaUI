@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -44,23 +46,20 @@ public class MajorController extends BaseDAO {
 
     private List<Object[]> getResultMajors(Session session, Integer year, String keyword) {
         Integer nowYear = LocalDate.now().getYear();
+        StringBuilder stringQuery = new StringBuilder();
+        stringQuery.append("SELECT m.id, m.code, m.name, md.bench_mark, md.amount_student_received FROM majors m ");
         if (nowYear.equals(year)) {
-            StringBuilder stringQuery = new StringBuilder();
-            stringQuery.append("SELECT m.id, m.code, m.name, md.bench_mark, md.amount_student_received FROM majors m ");
             stringQuery.append("INNER JOIN major_details md ON m.id = md.major_id ");
-            stringQuery.append("WHERE YEAR(md.created_date) IS NULL OR YEAR(md.created_date) = :year ");
-            Query query = session.createNativeQuery(stringQuery.toString());
-            query.setParameter("year", year);
-            return query.getResultList();
+            stringQuery.append("WHERE YEAR(md.created_date) = :year ");
         } else {
-            StringBuilder stringQuery = new StringBuilder();
-            stringQuery.append("SELECT m.id, m.code, m.name, md.bench_mark, md.amount_student_received FROM majors m ");
             stringQuery.append("LEFT JOIN major_details md ON m.id = md.major_id ");
-            stringQuery.append("WHERE YEAR(md.created_date) IS NULL OR YEAR(md.created_date) = :year ");
-            Query query = session.createNativeQuery(stringQuery.toString());
-            query.setParameter("year", year);
-            return query.getResultList();
+            stringQuery.append("WHERE (YEAR(md.created_date) IS NULL OR YEAR(md.created_date) = :year) ");
         }
+        stringQuery.append("AND (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') OR m.name LIKE CONCAT('%', :keyword, '%')) ");
+        Query query = session.createNativeQuery(stringQuery.toString());
+        query.setParameter("year", year, IntegerType.INSTANCE);
+        query.setParameter("keyword", keyword, StringType.INSTANCE);
+        return query.getResultList();
     }
 
 }

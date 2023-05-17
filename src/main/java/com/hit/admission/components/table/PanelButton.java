@@ -3,8 +3,7 @@ package com.hit.admission.components.table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import lombok.Getter;
-import lombok.Setter;
-import com.hit.admission.event.ButtonClickEvent;
+import com.hit.admission.event.EventButtonTableClick;
 
 /**
  *
@@ -17,7 +16,7 @@ public class PanelButton extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void initEvent(ButtonClickEvent event, int row) {
+    public void initEvent(EventButtonTableClick event, int row) {
         JButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

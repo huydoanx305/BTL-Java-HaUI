@@ -7,13 +7,14 @@ import com.hit.admission.components.table.TableHeader;
 import com.hit.admission.controller.MajorController;
 import com.hit.admission.controller.MajorDetailController;
 import com.hit.admission.dto.MajorDTO;
+import com.hit.admission.event.EventButtonSearchClick;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import com.hit.admission.event.ButtonClickEvent;
+import com.hit.admission.event.EventButtonTableClick;
 
 /**
  *
@@ -38,7 +39,7 @@ public class MajorView extends javax.swing.JPanel {
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
 
         table.setTableHeader(TableHeader.customTableHeader(table.getTableHeader()));
-        ButtonClickEvent registerEvent = new ButtonClickEvent() {
+        EventButtonTableClick registerEvent = new EventButtonTableClick() {
             @Override
             public void onClick(int row) {
                 System.out.println("Register code " + table.getValueAt(row, 0));
@@ -49,7 +50,14 @@ public class MajorView extends javax.swing.JPanel {
         table.getColumnModel().getColumn(5).setCellEditor(new TableButtonCellEditor(registerEvent, "Đăng ký"));
 
         loadFilterYearComboBox();
-        loadMajor();
+        loadMajor(search1.getKeyword().getText());
+        
+        search1.addEventButtonSearchClick(new EventButtonSearchClick() {
+            @Override
+            public void onClick(String text) {
+                loadMajor(text);
+            }
+        });
     }
 
     private void loadFilterYearComboBox() {
@@ -60,10 +68,10 @@ public class MajorView extends javax.swing.JPanel {
         }
     }
 
-    private void loadMajor() {
+    private void loadMajor(String keyword) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         Integer year = Integer.valueOf(filterYear.getSelectedItem().toString());
-        List<MajorDTO> majorDTOs = majorController.getMajors(year, null);
+        List<MajorDTO> majorDTOs = majorController.getMajors(year, keyword);
         int numberRowsOfTable = majorDTOs.size();
         model.setRowCount(numberRowsOfTable);
         for (int i = 0; i < numberRowsOfTable; i++) {
@@ -160,7 +168,7 @@ public class MajorView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void filterYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterYearActionPerformed
-        loadMajor();
+        loadMajor(search1.getKeyword().getText());
     }//GEN-LAST:event_filterYearActionPerformed
 
 
