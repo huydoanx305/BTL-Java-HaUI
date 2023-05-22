@@ -1,9 +1,11 @@
 package com.hit.admission.mapper;
 
 import com.hit.admission.dto.SignUpRequest;
+import com.hit.admission.dto.StudentDTO;
 import com.hit.admission.model.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
 /**
@@ -23,5 +25,12 @@ public interface StudentMapper {
         @Mapping(target = "phoneNumber", source = "phoneNumber")
     })
     Student signUpRequestToStudent(SignUpRequest signUpRequest);
+    
+    StudentDTO toStudentDTO(Student student);
+    
+    Student toStudent(StudentDTO studentDTO);
+    
+    @Mapping(target = "avatar", ignore = true)
+    void updateStudentFromDTO(StudentDTO studentDTO, @MappingTarget Student student);
 
 }
