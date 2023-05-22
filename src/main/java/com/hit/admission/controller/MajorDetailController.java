@@ -1,8 +1,6 @@
 package com.hit.admission.controller;
 
-import static com.hit.admission.utils.SessionUtil.close;
-import static com.hit.admission.utils.SessionUtil.getSession;
-import static com.hit.admission.utils.SessionUtil.rollback;
+import com.hit.admission.base.BaseDAO;
 import java.math.BigInteger;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.log4j.Logger;
@@ -14,7 +12,7 @@ import org.hibernate.query.Query;
  *
  * @author Huy Doan
  */
-public class MajorDetailController {
+public class MajorDetailController extends BaseDAO {
     
     private final Logger logger = Logger.getLogger(MajorDetailController.class);
     
@@ -32,8 +30,8 @@ public class MajorDetailController {
             }
         } catch (Exception e) {
             rollback(tx);
-            e.printStackTrace();
             logger.error(e.getMessage());
+            e.printStackTrace();
         } finally {
             close(session);
         }

@@ -50,7 +50,7 @@ public abstract class BaseDAO extends SessionUtil {
         return list;
     }
 
-    public final Object findById(Class<?> clazz, Long id) throws Exception {
+    public final Object findById(Class<?> clazz, Integer id) throws Exception {
         Object obj;
         try {
             startOperation();

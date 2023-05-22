@@ -13,12 +13,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
-
+public class CommonResponse {
+    
     private Boolean status;
 
     private String message;
-
-    private UserDTO user;
     
 }

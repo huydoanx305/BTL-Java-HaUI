@@ -3,7 +3,9 @@ package com.hit.admission.view;
 import com.hit.admission.constants.RoleConstant;
 import com.hit.admission.controller.AuthController;
 import com.hit.admission.dto.LoginResponse;
-import com.hit.admission.view.user.Main;
+import com.hit.admission.utils.CurrentUserLogin;
+import com.hit.admission.view.admin.AdminLayout;
+import com.hit.admission.view.user.UserLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -180,12 +182,13 @@ public class Login extends javax.swing.JFrame {
         LoginResponse loginResponse = authController.login(username, password);
         if (loginResponse.getStatus().equals(Boolean.TRUE)) {
             this.dispose();
-            if (loginResponse.getRoleName().equals(RoleConstant.ROLE_ADMIN)) {
-                com.hit.admission.view.admin.Main mainAdmin = new com.hit.admission.view.admin.Main();
-                mainAdmin.setVisible(true);
+            CurrentUserLogin.user = loginResponse.getUser();
+            if (loginResponse.getUser().getRoleName().equals(RoleConstant.ROLE_ADMIN)) {
+                AdminLayout adminLayout = new AdminLayout();
+                adminLayout.setVisible(true);
             } else {
-                Main mainUser = new Main();
-                mainUser.setVisible(true);
+                UserLayout userLayout = new UserLayout();
+                userLayout.setVisible(true);
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, loginResponse.getMessage());

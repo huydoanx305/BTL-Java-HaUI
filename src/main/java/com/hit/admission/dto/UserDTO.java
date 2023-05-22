@@ -1,5 +1,6 @@
 package com.hit.admission.dto;
 
+import com.hit.admission.constants.RoleConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +14,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class UserDTO {
+    
+    private Integer id;
 
-    private Boolean status;
+    private String username;
 
-    private String message;
-
-    private UserDTO user;
+    private RoleConstant roleName;
+    
+    private Integer studentId;
     
 }

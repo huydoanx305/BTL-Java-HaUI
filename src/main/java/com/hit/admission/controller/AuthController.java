@@ -8,6 +8,7 @@ import com.hit.admission.dto.SignUpRequest;
 import com.hit.admission.lib.security.BCryptPasswordEncoder;
 import com.hit.admission.lib.security.PasswordEncoder;
 import com.hit.admission.mapper.StudentMapper;
+import com.hit.admission.mapper.UserMapper;
 import com.hit.admission.model.Student;
 import com.hit.admission.model.User;
 import java.util.List;
@@ -29,10 +30,13 @@ public class AuthController extends BaseDAO {
     private final PasswordEncoder passwordEncoder;
 
     private final StudentMapper studentMapper;
+    
+    private final UserMapper userMapper;
 
     public AuthController() {
         this.passwordEncoder = new BCryptPasswordEncoder();
         this.studentMapper = Mappers.getMapper(StudentMapper.class);
+        this.userMapper = Mappers.getMapper(UserMapper.class);
     }
 
     public LoginResponse login(String username, String password) {
@@ -53,7 +57,7 @@ public class AuthController extends BaseDAO {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 loginResponse.setStatus(Boolean.TRUE);
                 loginResponse.setMessage(CommonConstant.SUCCESS);
-                loginResponse.setRoleName(user.getRoleName());
+                loginResponse.setUser(userMapper.toUserDTO(user));
                 return loginResponse;
             } else {
                 loginResponse.setStatus(Boolean.FALSE);
@@ -62,8 +66,8 @@ public class AuthController extends BaseDAO {
             }
         } catch (Exception e) {
             rollback(tx);
-            e.printStackTrace();
             logger.error(e.getMessage());
+            e.printStackTrace();
             loginResponse.setStatus(Boolean.FALSE);
             loginResponse.setMessage("Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
             return loginResponse;
@@ -88,13 +92,14 @@ public class AuthController extends BaseDAO {
             if (CollectionUtils.isNotEmpty(students)) {
                 return "Email này đã được đăng ký!";
             }
+            Student student = studentMapper.signUpRequestToStudent(signUpRequest);
+            session.saveOrUpdate(student);
             User user = new User();
             user.setUsername(signUpRequest.getCitizenIdentityNumber());
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
             user.setRoleName(RoleConstant.ROLE_USER);
-            Student student = studentMapper.signUpRequestToStudent(signUpRequest);
+            user.setStudent(student);
             session.saveOrUpdate(user);
-            session.saveOrUpdate(student);
             tx.commit();
             return CommonConstant.SUCCESS;
         } catch (Exception e) {

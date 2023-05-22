@@ -4,12 +4,8 @@ import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.constants.CommonConstant;
 import com.hit.admission.controller.AuthController;
 import com.hit.admission.dto.SignUpRequest;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.hit.admission.utils.DateUtils;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -259,8 +255,7 @@ public class SignUp extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số điện thoại!");
             return;
         }
-        LocalDate cmndDate = jcmndIssueDate.getDate().toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate cmndDate = DateUtils.asLocalDate(jcmndIssueDate.getDate());
         SignUpRequest signUpRequest = new SignUpRequest(cmnd, cmndDate, cmndBy, password, 
                 firstName, lastName, email, phoneNumber);
         String response = authController.signup(signUpRequest);
