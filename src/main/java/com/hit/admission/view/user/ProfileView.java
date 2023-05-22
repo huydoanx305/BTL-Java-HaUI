@@ -302,6 +302,8 @@ public class ProfileView extends javax.swing.JPanel {
             CommonResponse response = studentController.uploadAvatar(selectedFile);
             if (response.getStatus()) {
                 jAvatar.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
+                ImageIcon imageIcon = ResourceUtil.getAvatar(response.getMessage());
+                imageIcon.getImage().flush();
                 new ConfirmDialog(null, "Cập nhật thành công", "Cập nhật ảnh cá nhân thành công");
             } else {
                 JOptionPane.showMessageDialog(this, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
