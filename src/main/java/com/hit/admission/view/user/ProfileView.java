@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
@@ -296,9 +297,17 @@ public class ProfileView extends javax.swing.JPanel {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Chọn ảnh");
         fileChooser.setPreferredSize(new java.awt.Dimension(700, 500));
+        FileNameExtensionFilter imageFilter
+                = new FileNameExtensionFilter("Image files (*.png, *.jpg, *.jpeg)", "jpg", "jpeg", "png");
+        fileChooser.setFileFilter(imageFilter);
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
+            String extension = ResourceUtil.getFileExtension(selectedFile);
+            if (extension == null || !ResourceUtil.isImageExtension(extension)) {
+                JOptionPane.showMessageDialog(this, "File không hợp lệ! Vui lòng chọn file ảnh");
+                return;
+            }
             CommonResponse response = studentController.uploadAvatar(selectedFile);
             if (response.getStatus()) {
                 jAvatar.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));

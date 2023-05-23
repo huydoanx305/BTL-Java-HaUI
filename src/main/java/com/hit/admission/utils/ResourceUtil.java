@@ -49,4 +49,18 @@ public class ResourceUtil {
         }
     }
     
+    public static String getFileExtension(File file) {
+        String extension = null;
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            extension = fileName.substring(dotIndex + 1).toLowerCase();
+        }
+        return extension;
+    }
+    
+    public static boolean isImageExtension(String extension) {
+        return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
+    }
+    
 }
