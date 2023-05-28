@@ -11,11 +11,11 @@ import com.hit.admission.event.EventButtonTableClick;
  * @author Huy Doan
  */
 public class TableButtonCellEditor extends DefaultCellEditor {
-    
+
     private String text;
-    
+
     private EventButtonTableClick event;
-    
+
     public TableButtonCellEditor(EventButtonTableClick event, String text) {
         super(new JCheckBox());
         this.event = event;

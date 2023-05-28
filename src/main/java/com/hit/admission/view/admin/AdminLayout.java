@@ -9,29 +9,40 @@ import javax.swing.JComponent;
  * @author Huy Doan
  */
 public class AdminLayout extends javax.swing.JFrame {
-    
+
     public AdminLayout() {
         setTitle("Admission System");
         setPreferredSize(new java.awt.Dimension(1300, 700));
         initComponents();
+
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(12);
+
         menuAdmin.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 System.out.println(index);
                 if (index == 0) {
-                    setForm(new ManageUserView());
+                    setForm(new ManageStudentView());
                 } else if (index == 1) {
                     setForm(new ManageMajorView());
-                } else if(index == 3) {
+                } else if (index == 2) {
+                    setForm(new ManageMajorDetailView());
+                } else if (index == 3) {
+                    //khối
+                } else if (index == 4) {
+                    //danh sách nguyện vọng
+                } else if (index == 5) {
+                    //thống kê
+                } else if (index == 6) {
                     setVisible(false);
                     new Login().setVisible(true);
                 }
             }
         });
         //  set when system open start with home form
-        setForm(new ManageUserView());
+        setForm(new ManageStudentView());
     }
-    
+
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);
@@ -44,12 +55,16 @@ public class AdminLayout extends javax.swing.JFrame {
     private void initComponents() {
 
         menuAdmin = new com.hit.admission.components.menu.MenuAdmin();
+        jScrollPane1 = new javax.swing.JScrollPane();
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jScrollPane1.setBorder(null);
+
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new java.awt.BorderLayout());
+        jScrollPane1.setViewportView(mainPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,17 +72,17 @@ public class AdminLayout extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
-            .addComponent(menuAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1)
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -134,6 +149,7 @@ public class AdminLayout extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private com.hit.admission.components.menu.MenuAdmin menuAdmin;
     // End of variables declaration//GEN-END:variables

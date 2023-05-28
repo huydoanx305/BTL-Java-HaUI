@@ -30,7 +30,7 @@ public class MajorDetail extends DateAuditing {
 
     @Column(name = "bench_mark")
     private Float benchMark;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private MajorDetailsStatus status;

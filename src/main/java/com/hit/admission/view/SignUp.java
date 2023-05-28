@@ -16,7 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 public class SignUp extends javax.swing.JFrame {
 
     private final AuthController authController;
-    
+
     public SignUp() {
         initComponents();
         authController = new AuthController();
@@ -211,8 +211,8 @@ public class SignUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jloginMouseClicked
-       this.dispose();
-       new Login().setVisible(true);
+        this.dispose();
+        new Login().setVisible(true);
     }//GEN-LAST:event_jloginMouseClicked
 
     private void jButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSignupActionPerformed
@@ -223,45 +223,45 @@ public class SignUp extends javax.swing.JFrame {
         String cmndBy = jcmndIssuedBy.getText();
         String email = jemail.getText();
         String phoneNumber = jphone.getText();
-        if(ObjectUtils.isEmpty(lastName)) {
+        if (ObjectUtils.isEmpty(lastName)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập họ đệm!");
             return;
         }
-        if(ObjectUtils.isEmpty(firstName)) {
+        if (ObjectUtils.isEmpty(firstName)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập tên!");
             return;
         }
-        if(ObjectUtils.isEmpty(cmnd)) {
+        if (ObjectUtils.isEmpty(cmnd)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số CMND/CCCD!");
             return;
         }
-        if(ObjectUtils.isEmpty(password)) {
+        if (ObjectUtils.isEmpty(password)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập mật khẩu!");
             return;
         }
-        if(ObjectUtils.isEmpty(jcmndIssueDate.getDate())) {
+        if (ObjectUtils.isEmpty(jcmndIssueDate.getDate())) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn ngày cấp CMND/CCCD!");
             return;
         }
-        if(ObjectUtils.isEmpty(cmndBy)) {
+        if (ObjectUtils.isEmpty(cmndBy)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập người cấp CMND/CCCD!");
             return;
         }
-        if(ObjectUtils.isEmpty(email)) {
+        if (ObjectUtils.isEmpty(email)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập email!");
             return;
         }
-        if(ObjectUtils.isEmpty(phoneNumber)) {
+        if (ObjectUtils.isEmpty(phoneNumber)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số điện thoại!");
             return;
         }
         LocalDate cmndDate = DateUtils.asLocalDate(jcmndIssueDate.getDate());
-        SignUpRequest signUpRequest = new SignUpRequest(cmnd, cmndDate, cmndBy, password, 
+        SignUpRequest signUpRequest = new SignUpRequest(cmnd, cmndDate, cmndBy, password,
                 firstName, lastName, email, phoneNumber);
         String response = authController.signup(signUpRequest);
-        if(response.equals(CommonConstant.SUCCESS)) {
+        if (response.equals(CommonConstant.SUCCESS)) {
             ConfirmDialog confirmDialog = new ConfirmDialog(null, "Đăng ký thành công", "Đăng ký tài khoản thành công");
-            if(confirmDialog.isOkClicked()) {
+            if (confirmDialog.isOkClicked()) {
                 this.dispose();
                 new Login().setVisible(true);
             }

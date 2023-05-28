@@ -24,6 +24,11 @@ public class ResourceUtil {
     public static ImageIcon getAvatar(String path) {
         return new ImageIcon(RESOURCES_PATH.resolve(path).toString());
     }
+    
+    public static File getFileByPath(String pathFile) {
+        Path path = RESOURCES_PATH.resolve(Paths.get(pathFile));
+        return path.toFile();
+    }
 
     public static ImageIcon getImageIcon(String path) {
         return new ImageIcon(RESOURCES_PATH.resolve("images").resolve(path).toString());
@@ -36,7 +41,7 @@ public class ResourceUtil {
             Files.createDirectories(path);
         }
         Path filePath;
-        try (InputStream inputStream = new FileInputStream(file)){
+        try (InputStream inputStream = new FileInputStream(file)) {
             String fileName = file.getName();
             String fileType = fileName.substring(fileName.lastIndexOf("."));
             String newFile = newFileName + fileType;
@@ -48,7 +53,7 @@ public class ResourceUtil {
             return null;
         }
     }
-    
+
     public static String getFileExtension(File file) {
         String extension = null;
         String fileName = file.getName();
@@ -58,9 +63,9 @@ public class ResourceUtil {
         }
         return extension;
     }
-    
+
     public static boolean isImageExtension(String extension) {
         return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
     }
-    
+
 }

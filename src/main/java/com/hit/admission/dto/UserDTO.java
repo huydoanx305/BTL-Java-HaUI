@@ -15,13 +15,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    
+
     private Integer id;
 
     private String username;
 
     private RoleConstant roleName;
-    
+
     private Integer studentId;
-    
+
 }

@@ -30,7 +30,7 @@ public class AuthController extends BaseDAO {
     private final PasswordEncoder passwordEncoder;
 
     private final StudentMapper studentMapper;
-    
+
     private final UserMapper userMapper;
 
     public AuthController() {
@@ -47,13 +47,13 @@ public class AuthController extends BaseDAO {
             NativeQuery<User> query = session.createNativeQuery("SELECT * FROM users WHERE username = :username", User.class);
             query.setParameter("username", username);
             List<User> users = query.getResultList();
-            tx.commit();
             if (CollectionUtils.isEmpty(users)) {
                 loginResponse.setStatus(Boolean.FALSE);
                 loginResponse.setMessage("Tài khoản không tồn tại!");
                 return loginResponse;
             }
             User user = users.get(0);
+            tx.commit();
             if (passwordEncoder.matches(password, user.getPassword())) {
                 loginResponse.setStatus(Boolean.TRUE);
                 loginResponse.setMessage(CommonConstant.SUCCESS);

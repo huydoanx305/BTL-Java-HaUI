@@ -7,5 +7,5 @@ package com.hit.admission.event;
 public interface EventButtonSearchClick {
 
     public void onClick(String text);
-    
+
 }

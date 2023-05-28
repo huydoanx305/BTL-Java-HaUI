@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO {
-    
+
     private Integer id;
 
     private String firstName;
@@ -43,5 +43,5 @@ public class StudentDTO {
     private LocalDate birthDay;
 
     private String ethnic;
-    
+
 }

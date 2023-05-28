@@ -13,10 +13,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonResponse {
+public class MajorDetailDTO {
 
-    private Boolean status;
+    private Integer id;
 
-    private String message;
+    private String code;
+
+    private String name;
+
+    private Integer amountStudentReceived;
+
+    private Float benchMark;
+
+    private String blocks;
 
 }

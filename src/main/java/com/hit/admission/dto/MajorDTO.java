@@ -14,17 +14,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MajorDTO {
-    
+
     private Integer id;
-    
+
     private String code;
-    
+
     private String name;
-    
-    private Integer amountStudentReceived;
-    
-    private Float benchMark;
-    
+
     private String blocks;
-    
+
 }

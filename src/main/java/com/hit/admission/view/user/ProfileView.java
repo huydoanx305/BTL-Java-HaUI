@@ -23,6 +23,8 @@ public class ProfileView extends javax.swing.JPanel {
 
     private final StudentController studentController;
 
+    private File currentAvatar;
+
     public ProfileView() {
         initComponents();
         studentController = new StudentController();
@@ -53,9 +55,48 @@ public class ProfileView extends javax.swing.JPanel {
                 }
             }
             if (ObjectUtils.isNotEmpty(student.getAvatar())) {
+                ImageIcon imageIcon = ResourceUtil.getAvatar(student.getAvatar());
+                imageIcon.getImage().flush();
+                currentAvatar = ResourceUtil.getFileByPath(student.getAvatar());
                 jAvatar.setIcon(ResourceUtil.getAvatar(student.getAvatar()));
             }
         }
+    }
+    
+    private boolean validateInput() {
+        if (ObjectUtils.isEmpty(jHoDem.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ đệm!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jTen.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jHoDem.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ đệm!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jSoCMND.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số CMND/CCCD!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jNguoiCap.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập người cấp CMND/CCCD!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jNgayCap.getDate())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày cấp CMND/CCCD!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jEmail.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập email!");
+            return false;
+        }
+        if (ObjectUtils.isEmpty(jPhone.getText())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại!");
+            return false;
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -308,20 +349,15 @@ public class ProfileView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "File không hợp lệ! Vui lòng chọn file ảnh");
                 return;
             }
-            CommonResponse response = studentController.uploadAvatar(selectedFile);
-            if (response.getStatus()) {
-                jAvatar.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
-                ImageIcon imageIcon = ResourceUtil.getAvatar(response.getMessage());
-                imageIcon.getImage().flush();
-                new ConfirmDialog(null, "Cập nhật thành công", "Cập nhật ảnh cá nhân thành công");
-            } else {
-                JOptionPane.showMessageDialog(this, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
-                return;
-            }
+            currentAvatar = fileChooser.getSelectedFile();
+            jAvatar.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
         }
     }//GEN-LAST:event_jUploadActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(!validateInput()) {
+            return;
+        }
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setId(CurrentUserLogin.user.getStudentId());
         studentDTO.setLastName(jHoDem.getText());
@@ -330,12 +366,19 @@ public class ProfileView extends javax.swing.JPanel {
         LocalDate ngayCap = DateUtils.asLocalDate(jNgayCap.getDate());
         studentDTO.setCitizenIdentityIssueDate(ngayCap);
         studentDTO.setCitizenIdentityIssuedBy(jNguoiCap.getText());
-        studentDTO.setOrderNumber(jSBD.getText());
-        studentDTO.setPhoneNumber(jPhone.getText());
         studentDTO.setEmail(jEmail.getText());
-        studentDTO.setEthnic(jDanToc.getText());
-        studentDTO.setAddress(jDiaChi.getText());
-
+        if (ObjectUtils.isNotEmpty(jSBD.getText())) {
+            studentDTO.setOrderNumber(jSBD.getText());
+        }
+        if (ObjectUtils.isNotEmpty(jPhone.getText())) {
+            studentDTO.setPhoneNumber(jPhone.getText());
+        }
+        if (ObjectUtils.isNotEmpty(jDanToc.getText())) {
+            studentDTO.setEthnic(jDanToc.getText());
+        }
+        if (ObjectUtils.isNotEmpty(jDiaChi.getText())) {
+            studentDTO.setAddress(jDiaChi.getText());
+        }
         if (ObjectUtils.isNotEmpty(jNgaySinh.getDate())) {
             LocalDate ngaySinh = DateUtils.asLocalDate(jNgaySinh.getDate());
             studentDTO.setBirthDay(ngaySinh);
@@ -345,9 +388,18 @@ public class ProfileView extends javax.swing.JPanel {
         } else if (jNu.isSelected()) {
             studentDTO.setGender("Nữ");
         }
+        if (currentAvatar != null) {
+            String fileName = CurrentUserLogin.user.getUsername();
+            studentDTO.setAvatar(ResourceUtil.saveFile(fileName, "upload/avatar", currentAvatar));
+        }
         try {
-            studentController.updateInfo(studentDTO);
-            new ConfirmDialog(null, "Cập nhật thành công", "Cập nhật thông tin cá nhân thành công");
+            CommonResponse commonResponse = studentController.updateStudent(studentDTO);
+            if (commonResponse.getStatus().equals(Boolean.TRUE)) {
+                new ConfirmDialog(null, "Cập nhật thành công", commonResponse.getMessage());
+            } else {
+                JOptionPane.showMessageDialog(null, commonResponse.getMessage());
+                return;
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
             return;
@@ -361,7 +413,6 @@ public class ProfileView extends javax.swing.JPanel {
     private void jNuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jNuActionPerformed
         jNam.setSelected(false);
     }//GEN-LAST:event_jNuActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jAvatar;

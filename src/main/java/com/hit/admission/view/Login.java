@@ -21,7 +21,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * @author Huy Doan
  */
 public class Login extends javax.swing.JFrame {
-    
+
     private final AuthController authController;
 
     public Login() {

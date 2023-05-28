@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class TableButtonCellRender extends DefaultTableCellRenderer {
-    
+
     private String text;
 
     @Override

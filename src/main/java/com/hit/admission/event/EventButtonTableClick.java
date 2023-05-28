@@ -7,5 +7,5 @@ package com.hit.admission.event;
 public interface EventButtonTableClick {
 
     public void onClick(int row);
-    
+
 }

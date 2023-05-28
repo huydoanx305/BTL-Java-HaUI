@@ -19,5 +19,5 @@ public class TableHeader {
         headerRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         return header;
     }
-    
+
 }

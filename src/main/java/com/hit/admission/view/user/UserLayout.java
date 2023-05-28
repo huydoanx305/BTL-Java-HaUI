@@ -9,7 +9,7 @@ import javax.swing.JComponent;
  * @author Huy Doan
  */
 public class UserLayout extends javax.swing.JFrame {
-    
+
     public UserLayout() {
         setTitle("Admission System");
         setPreferredSize(new java.awt.Dimension(1300, 700));
@@ -25,13 +25,13 @@ public class UserLayout extends javax.swing.JFrame {
                 } else if (index == 5) {
                     setVisible(false);
                     new Login().setVisible(true);
-                } 
+                }
             }
         });
         //  set when system open start with home form
         setForm(new ProfileView());
     }
-    
+
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);
