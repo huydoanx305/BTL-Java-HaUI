@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -25,7 +26,7 @@ import org.mapstruct.factory.Mappers;
  */
 public class MajorController extends BaseDAO {
 
-    private final Logger logger = Logger.getLogger(MajorController.class);
+    private final Logger logger = LogManager.getLogger(MajorController.class);
 
     private final BlockController blockController;
 
@@ -36,14 +37,33 @@ public class MajorController extends BaseDAO {
         this.blockController = new BlockController();
     }
 
+    public List<MajorDTO> getMajors() throws Exception {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            String sql = "SELECT * FROM majors ORDER BY name";
+            Query query = session.createNativeQuery(sql, Major.class);
+            List<Major> queryResults = query.getResultList();
+            tx.commit();
+            return majorMapper.toMajorDTOs(queryResults);
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            close(session);
+        }
+        return null;
+    }
+
     public List<MajorDTO> getMajorsForAdmin(String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         try {
             StringBuilder stringQuery = new StringBuilder();
             stringQuery.append("SELECT m.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes FROM majors m ");
-            stringQuery.append("INNER JOIN major_block mb ON m.id = mb.major_id  ");
-            stringQuery.append("INNER JOIN blocks b ON mb.block_id = b.id  ");
+            stringQuery.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
+            stringQuery.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");
             stringQuery.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') OR m.name LIKE CONCAT('%', :keyword, '%')) ");
             stringQuery.append("GROUP BY m.id ");
             Query query = session.createNativeQuery(stringQuery.toString());
@@ -65,7 +85,8 @@ public class MajorController extends BaseDAO {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createNativeQuery("SELECT * FROM majors WHERE code = :code", Major.class);
+            Query query = session.createNativeQuery("SELECT * FROM majors WHERE code = :code", Major.class
+            );
             query.setParameter("code", code);
             List<Major> majors = query.getResultList();
             if (CollectionUtils.isEmpty(majors)) {
@@ -112,7 +133,8 @@ public class MajorController extends BaseDAO {
                 return new CommonResponse(Boolean.FALSE, "Mã chuyên ngành này đã tồn tại!");
             }
             List<Block> blocks = blockController.getBlocksByCode(codes);
-            Major major = session.load(Major.class, majorDTO.getId());
+            Major major = session.load(Major.class,
+                     majorDTO.getId());
             majorMapper.updateMajorFromDTO(majorDTO, major);
             major.setBlocks(new HashSet<>(blocks));
             session.saveOrUpdate(major);
@@ -129,7 +151,8 @@ public class MajorController extends BaseDAO {
     }
 
     public CommonResponse deleteMajorById(Integer majorId) throws Exception {
-        Major major = (Major) findById(Major.class, majorId);
+        Major major = (Major) findById(Major.class,
+                 majorId);
         if (ObjectUtils.isEmpty(major)) {
             return new CommonResponse(Boolean.FALSE, "Không tìm thấy chuyên ngành có id " + majorId);
         }

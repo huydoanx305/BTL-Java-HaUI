@@ -29,6 +29,9 @@ public class Admission extends DateAuditing {
 
     @Column(name = "total_score")
     private Float totalScore;
+    
+    @Column(name = "status", nullable = false)
+    private Boolean status;
 
     //link to table Student
     @ManyToOne

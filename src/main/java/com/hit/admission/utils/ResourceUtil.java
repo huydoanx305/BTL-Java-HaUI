@@ -67,5 +67,9 @@ public class ResourceUtil {
     public static boolean isImageExtension(String extension) {
         return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
     }
+    
+    public static boolean isExcelExtension(String extension) {
+        return extension.equals("xlsx");
+    }
 
 }

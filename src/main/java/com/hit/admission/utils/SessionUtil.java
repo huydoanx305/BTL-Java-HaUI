@@ -1,6 +1,7 @@
 package com.hit.admission.utils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +16,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  */
 public class SessionUtil {
 
-    static Logger logger = Logger.getLogger(SessionUtil.class);
+    static Logger logger = LogManager.getLogger(SessionUtil.class);
 
     private static SessionFactory sessionFactory;
 

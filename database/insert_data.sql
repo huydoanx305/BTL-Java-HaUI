@@ -1,8 +1,8 @@
 USE admission;
 
 -- insert admin
-INSERT INTO users (username, password, role_name, created_date, last_modified_date)
-VALUES ("admin","$2a$10$5ZaGoa6gAbwqDgn9gA4tcuqDNniDbx3RwTH6rEWl1Ak2GY/FZr5ya", "ROLE_ADMIN", now(), now());
+INSERT INTO users (username, password, role_name, is_locked, created_date, last_modified_date)
+VALUES ("admin","$2a$10$5ZaGoa6gAbwqDgn9gA4tcuqDNniDbx3RwTH6rEWl1Ak2GY/FZr5ya", "ROLE_ADMIN", false, now(), now());
 
 -- insert data majors
 INSERT INTO majors (id, code, name, created_date, last_modified_date) VALUES 
@@ -287,6 +287,71 @@ INSERT INTO major_block (major_id, block_id) VALUES
 (49, 5),
 (49, 9);
 
+-- insert subject
+INSERT INTO subjects (id, `name`, created_date, last_modified_date) VALUES
+(1, "Toán", now(), now()),
+(2, "Lý", now(), now()),
+(3, "Hóa", now(), now()),
+(4, "Văn", now(), now()),
+(5, "Anh", now(), now()),
+(6, "Sinh", now(), now()),
+(7, "Sử", now(), now()),
+(8, "Địa", now(), now()),
+(9, "Tiếng Trung", now(), now()),
+(10, "Tiếng Nhật", now(), now()),
+(11, "Tiếng Nga", now(), now());
+
+-- insert data block subject
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(2, 1),
+(2, 2),
+(2, 5);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(3, 1),
+(3, 3),
+(3, 6);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(4, 1),
+(4, 3),
+(4, 6);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(5, 1),
+(5, 4),
+(5, 5);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(6, 1),
+(6, 4),
+(6, 9);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(7, 1),
+(7, 4),
+(7, 10);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(8, 1),
+(8, 3),
+(8, 5);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(9, 4),
+(9, 7),
+(9, 5);
+
+INSERT INTO block_subject (block_id, subject_id) VALUES
+(10, 1),
+(10, 4),
+(10, 11);
+
 -- insert data major detail
 INSERT INTO major_details (id, amount_student_received, bench_mark, status, created_date, last_modified_date, major_id) VALUES
 (1, 280, 21.05, "PUBLIC", "2016-08-12 00:00:00", "2016-08-12 00:00:00", 23),
@@ -296,3 +361,8 @@ INSERT INTO major_details (id, amount_student_received, bench_mark, status, crea
 (5, 390, 25.6, "PUBLIC", "2020-08-12 00:00:00", "2020-08-12 00:00:00", 23),
 (6, 370, 26.05, "PUBLIC", "2021-08-12 00:00:00", "2021-08-12 00:00:00", 23),
 (7, 295, 26.15, "PUBLIC", "2022-08-12 00:00:00", "2022-08-12 00:00:00", 23);
+
+-- insert data setting
+INSERT INTO settings (`setting_key`, `setting_value`) VALUES 
+("start_time_admission", "2023-06-01 00:00:00"),
+("end_time_admission", "2023-08-01 00:00:00")

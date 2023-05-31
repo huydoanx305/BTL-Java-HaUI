@@ -1,7 +1,10 @@
 package com.hit.admission.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hit.admission.model.base.DateAuditing;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -71,4 +74,9 @@ public class Student extends DateAuditing {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
     private User user;
 
+    //link to table Admission
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "block")
+    @JsonIgnore
+    private Set<Admission> admissions = new HashSet<>();
+    
 }

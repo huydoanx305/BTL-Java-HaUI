@@ -13,7 +13,8 @@ import com.hit.admission.model.Student;
 import com.hit.admission.model.User;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
@@ -25,7 +26,7 @@ import org.mapstruct.factory.Mappers;
  */
 public class AuthController extends BaseDAO {
 
-    private final Logger logger = Logger.getLogger(AuthController.class);
+    private final Logger logger = LogManager.getLogger(AuthController.class);
 
     private final PasswordEncoder passwordEncoder;
 
@@ -98,6 +99,7 @@ public class AuthController extends BaseDAO {
             user.setUsername(signUpRequest.getCitizenIdentityNumber());
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
             user.setRoleName(RoleConstant.ROLE_USER);
+            user.setIsLocked(Boolean.FALSE);
             user.setStudent(student);
             session.saveOrUpdate(user);
             tx.commit();

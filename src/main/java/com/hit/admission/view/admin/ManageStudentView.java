@@ -279,7 +279,7 @@ public class ManageStudentView extends javax.swing.JPanel {
         jLabel2.setText("ID");
 
         jId.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jId.setEnabled(false);
+        jId.setFocusable(false);
 
         jLabel3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel3.setText("CMND/CCCD");
@@ -624,6 +624,8 @@ public class ManageStudentView extends javax.swing.JPanel {
 
     private void jClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearActionPerformed
         clearInput();
+        jSearch.getKeyword().setText(null);
+        loadStudents(jSearch.getKeyword().getText());
     }//GEN-LAST:event_jClearActionPerformed
 
     private void jThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jThemActionPerformed

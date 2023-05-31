@@ -33,10 +33,13 @@ public class User extends DateAuditing {
     @Column(name = "password", nullable = false)
     @JsonIgnore
     private String password;
-
+    
     @Column(name = "role_name", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleConstant roleName;
+    
+    @Column(name = "is_locked", nullable = false)
+    private Boolean isLocked;
 
     //link to table Student
     @OneToOne

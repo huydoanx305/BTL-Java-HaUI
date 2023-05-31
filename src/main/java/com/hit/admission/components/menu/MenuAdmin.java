@@ -32,9 +32,11 @@ public class MenuAdmin extends javax.swing.JPanel {
         listMenu1.addItem(new ModelMenu("3.png", "Quản lý ngành", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("3.png", "Quản lý chi tiết ngành", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("3.png", "Quản lý khối", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("3.png", "Quản môn học", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("4.png", "Quản lý danh sách nguyện vọng", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("5.png", "Thống kê", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("6.png", "Logout", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("5.png", "Cài đặt", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("6.png", "Đăng xuất", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
     }
 
@@ -82,8 +84,7 @@ public class MenuAdmin extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMoving, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(listMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -36,8 +36,18 @@ public class Block extends DateAuditing {
     private Set<Admission> admissions = new HashSet<>();
 
     //link to table Major
-    @ManyToMany(mappedBy = "blocks", cascade = {CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "blocks", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private Set<Major> majors = new HashSet<>();
+    
+    //link to table Subject
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "block_subject",
+            joinColumns = @JoinColumn(name = "block_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id", referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "FK_BLOCK_SUBJECT"))
+    )
+    @JsonIgnore
+    private Set<Subject> subjects = new HashSet<>();
 
 }

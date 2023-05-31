@@ -13,20 +13,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MajorDetailDTO {
+public class ReadFileExcelResponse<T> {
 
-    private Integer id;
+    private Boolean status;
 
-    private String code;
-
-    private String name;
-
-    private Integer amountStudentReceived;
-
-    private Float benchMark;
-
-    private String blocks;
+    private String message;
     
-    private Integer majorId;
-
+    private T response;
+    
 }

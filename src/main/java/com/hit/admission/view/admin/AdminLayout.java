@@ -20,22 +20,37 @@ public class AdminLayout extends javax.swing.JFrame {
         menuAdmin.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                System.out.println(index);
-                if (index == 0) {
-                    setForm(new ManageStudentView());
-                } else if (index == 1) {
-                    setForm(new ManageMajorView());
-                } else if (index == 2) {
-                    setForm(new ManageMajorDetailView());
-                } else if (index == 3) {
-                    //khối
-                } else if (index == 4) {
-                    //danh sách nguyện vọng
-                } else if (index == 5) {
-                    //thống kê
-                } else if (index == 6) {
-                    setVisible(false);
-                    new Login().setVisible(true);
+                switch (index) {
+                    case 0:
+                        setForm(new ManageStudentView());
+                        break;
+                    case 1:
+                        setForm(new ManageMajorView());
+                        break;
+                    case 2:
+                        setForm(new ManageMajorDetailView());
+                        break;
+                    case 3:
+                        setForm(new ManageBlockView());
+                        break;
+                    case 4:
+                        setForm(new ManageSubjectView());
+                        break;
+                    case 5:
+                        //danh sách nguyện vọng
+                        break;
+                    case 6:
+                        //thống kê
+                        break;
+                    case 7:
+                        setForm(new SettingView());
+                        break;
+                    case 8:
+                        setVisible(false);
+                        new Login().setVisible(true);
+                        break;
+                    default:
+                        break;
                 }
             }
         });

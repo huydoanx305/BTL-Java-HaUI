@@ -46,7 +46,7 @@ public class Major extends DateAuditing {
     private Set<Admission> admissions = new HashSet<>();
 
     //link to table Block
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "major_block",
             joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "block_id", referencedColumnName = "id",

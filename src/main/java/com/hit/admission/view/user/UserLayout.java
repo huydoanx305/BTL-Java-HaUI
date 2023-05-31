@@ -17,14 +17,22 @@ public class UserLayout extends javax.swing.JFrame {
         menuUser.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                System.out.println(index);
-                if (index == 0) {
-                    setForm(new ProfileView());
-                } else if (index == 1) {
-                    setForm(new MajorView());
-                } else if (index == 5) {
-                    setVisible(false);
-                    new Login().setVisible(true);
+                switch (index) {
+                    case 0:
+                        setForm(new ProfileView());
+                        break;
+                    case 1:
+                        setForm(new MajorView());
+                        break;
+                    case 2:
+                        setForm(new AdmissionView());
+                        break;
+                    case 3:
+                        setVisible(false);
+                        new Login().setVisible(true);
+                        break;
+                    default:
+                        break;
                 }
             }
         });

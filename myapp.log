@@ -1,0 +1,3342 @@
+2023-May-31 16:29:35 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:29:36 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 16:29:44 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        m.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        m.id 
+2023-May-31 16:29:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        subjects 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR name LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 16:30:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:30:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        email = ?
+2023-May-31 16:30:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* insert com.hit.admission.model.Student
+        */ insert 
+        into
+            students
+            (created_date, last_modified_date, address, avatar, birthDay, citizen_identity_issue_date, citizen_identity_issued_by, citizen_identity_number, email, ethnic, first_name, gender, last_name, order_number, phone_number) 
+        values
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2023-May-31 16:30:55 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* insert com.hit.admission.model.User
+        */ insert 
+        into
+            users
+            (created_date, last_modified_date, is_locked, password, role_name, student_id, username) 
+        values
+            (?, ?, ?, ?, ?, ?, ?)
+2023-May-31 16:30:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:30:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:30:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:30:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:30:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:30:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        key = ?
+2023-May-31 16:30:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-May-31 16:30:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 16:30:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 16:31:00 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        key = ?
+2023-May-31 16:31:13 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-May-31 16:31:13 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 16:31:13 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 16:31:16 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        key = ?
+2023-May-31 16:32:00 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:32:01 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:32:01 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:32:01 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:32:01 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:32:02 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:32:02 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:32:02 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 16:33:21 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:33:21 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:33:21 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:33:21 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:33:21 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:33:22 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:33:22 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:33:22 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 16:36:24 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:36:24 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:36:24 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:36:25 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:36:25 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:36:26 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:36:26 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:36:26 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 16:36:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:36:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:36:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:36:49 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:36:49 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:36:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:36:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:36:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 16:37:17 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 16:37:17 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 16:37:17 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:37:17 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 16:37:17 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 16:37:18 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:37:18 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 16:37:18 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 17:10:26 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 17:10:27 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 17:10:27 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 22:38:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 22:38:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-May-31 22:38:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 22:38:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-May-31 22:38:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 22:38:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 22:38:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 22:38:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 22:38:59 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 22:39:03 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        m.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        m.id 
+2023-May-31 22:39:04 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-May-31 22:39:04 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id  
+    FROM
+        majors m 
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 22:39:04 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id  
+    FROM
+        majors m 
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-May-31 22:39:05 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        b.id,
+        b.code,
+        GROUP_CONCAT(s.name SEPARATOR ',') AS subject_names 
+    FROM
+        blocks b 
+    LEFT JOIN
+        block_subject bs 
+            on bs.block_id = b.id 
+    LEFT JOIN
+        subjects s 
+            on s.id = bs.subject_id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR code LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        b.id 
+2023-May-31 22:39:11 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        subjects 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR name LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 22:40:40 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 22:40:40 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 22:40:40 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 22:54:09 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 22:54:09 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 22:54:10 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:16:34 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:16:35 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:16:35 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:17:23 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:17:24 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:17:24 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:17:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:17:49 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:17:49 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:20:47 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:20:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:20:48 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:22:28 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:22:28 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:22:28 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:22:45 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        subjects 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR name LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:27:11 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:27:12 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:27:12 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:37:14 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:37:14 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:37:14 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:49:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:49:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:49:52 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:51:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:51:51 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:51:51 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:51:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:51:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:53:32 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:53:32 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:53:32 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:53:33 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:53:33 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:29 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:58:30 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:58:30 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:58:31 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:31 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:36 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:36 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:36 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:36 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:37 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:37 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:40 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:40 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:41 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        b.id,
+        b.code,
+        GROUP_CONCAT(s.name SEPARATOR ',') AS subject_names 
+    FROM
+        blocks b 
+    LEFT JOIN
+        block_subject bs 
+            on bs.block_id = b.id 
+    LEFT JOIN
+        subjects s 
+            on s.id = bs.subject_id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR code LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        b.id 
+2023-May-31 23:58:42 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:42 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:46 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:46 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:46 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:46 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:47 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:47 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:49 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        b.id,
+        b.code,
+        GROUP_CONCAT(s.name SEPARATOR ',') AS subject_names 
+    FROM
+        blocks b 
+    LEFT JOIN
+        block_subject bs 
+            on bs.block_id = b.id 
+    LEFT JOIN
+        subjects s 
+            on s.id = bs.subject_id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR code LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        b.id 
+2023-May-31 23:58:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:50 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:53 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-May-31 23:58:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:58:54 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:59:56 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-May-31 23:59:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-May-31 23:59:57 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-May-31 23:59:58 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-May-31 23:59:58 PM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:01 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:01 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-Jun-01 00:00:01 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:01 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* update
+        com.hit.admission.model.Setting */ update
+            settings 
+        set
+            setting_key=?,
+            setting_value=? 
+        where
+            id=?
+2023-Jun-01 00:00:02 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:02 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:03 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        b.id,
+        b.code,
+        GROUP_CONCAT(s.name SEPARATOR ',') AS subject_names 
+    FROM
+        blocks b 
+    LEFT JOIN
+        block_subject bs 
+            on bs.block_id = b.id 
+    LEFT JOIN
+        subjects s 
+            on s.id = bs.subject_id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR code LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        b.id 
+2023-Jun-01 00:00:04 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:00:04 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:02:15 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-Jun-01 00:02:15 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-Jun-01 00:02:15 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:02:17 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:02:17 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:02:39 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        subjects 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR name LIKE CONCAT('%', ?, '%')
+        )
+2023-Jun-01 00:05:42 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:05:42 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:05:46 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-Jun-01 00:05:46 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id  
+    FROM
+        majors m 
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:05:46 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id  
+    FROM
+        majors m 
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:05:49 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        m.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        m.id 
+2023-Jun-01 00:05:50 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR first_name LIKE CONCAT('%', ?, '%') 
+            OR last_name LIKE CONCAT('%', ?, '%') 
+            OR citizen_identity_number LIKE CONCAT('%', ?, '%')
+            OR email LIKE CONCAT('%', ?, '%') 
+            OR phone_number LIKE CONCAT('%', ?, '%')
+            OR order_number LIKE CONCAT('%', ?, '%')
+        )
+2023-Jun-01 00:05:50 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:05:51 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        m.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        m.id 
+2023-Jun-01 00:05:51 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        b.id,
+        b.code,
+        GROUP_CONCAT(s.name SEPARATOR ',') AS subject_names 
+    FROM
+        blocks b 
+    LEFT JOIN
+        block_subject bs 
+            on bs.block_id = b.id 
+    LEFT JOIN
+        subjects s 
+            on s.id = bs.subject_id  
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR code LIKE CONCAT('%', ?, '%')
+        ) 
+    GROUP BY
+        b.id 
+2023-Jun-01 00:05:54 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-Jun-01 00:05:54 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-Jun-01 00:05:54 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:05:55 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-Jun-01 00:05:55 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:05:56 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:05:56 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:05:56 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-Jun-01 00:06:13 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        users 
+    WHERE
+        username = ?
+2023-Jun-01 00:06:13 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    select
+        student0_.id as id1_7_0_,
+        student0_.created_date as created_2_7_0_,
+        student0_.last_modified_date as last_mod3_7_0_,
+        student0_.address as address4_7_0_,
+        student0_.avatar as avatar5_7_0_,
+        student0_.birthDay as birthday6_7_0_,
+        student0_.citizen_identity_issue_date as citizen_7_7_0_,
+        student0_.citizen_identity_issued_by as citizen_8_7_0_,
+        student0_.citizen_identity_number as citizen_9_7_0_,
+        student0_.email as email10_7_0_,
+        student0_.ethnic as ethnic11_7_0_,
+        student0_.first_name as first_n12_7_0_,
+        student0_.gender as gender13_7_0_,
+        student0_.last_name as last_na14_7_0_,
+        student0_.order_number as order_n15_7_0_,
+        student0_.phone_number as phone_n16_7_0_ 
+    from
+        students student0_ 
+    where
+        student0_.id=?
+2023-Jun-01 00:06:13 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:06:13 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-Jun-01 00:06:13 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:06:14 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:14 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:14 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-Jun-01 00:06:17 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-Jun-01 00:06:17 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:17 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:18 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        students 
+    WHERE
+        id = ?
+2023-Jun-01 00:06:18 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* load com.hit.admission.model.User */ select
+        user0_.id as id1_9_1_,
+        user0_.created_date as created_2_9_1_,
+        user0_.last_modified_date as last_mod3_9_1_,
+        user0_.is_locked as is_locke4_9_1_,
+        user0_.password as password5_9_1_,
+        user0_.role_name as role_nam6_9_1_,
+        user0_.student_id as student_8_9_1_,
+        user0_.username as username7_9_1_,
+        student1_.id as id1_7_0_,
+        student1_.created_date as created_2_7_0_,
+        student1_.last_modified_date as last_mod3_7_0_,
+        student1_.address as address4_7_0_,
+        student1_.avatar as avatar5_7_0_,
+        student1_.birthDay as birthday6_7_0_,
+        student1_.citizen_identity_issue_date as citizen_7_7_0_,
+        student1_.citizen_identity_issued_by as citizen_8_7_0_,
+        student1_.citizen_identity_number as citizen_9_7_0_,
+        student1_.email as email10_7_0_,
+        student1_.ethnic as ethnic11_7_0_,
+        student1_.first_name as first_n12_7_0_,
+        student1_.gender as gender13_7_0_,
+        student1_.last_name as last_na14_7_0_,
+        student1_.order_number as order_n15_7_0_,
+        student1_.phone_number as phone_n16_7_0_ 
+    from
+        users user0_ 
+    left outer join
+        students student1_ 
+            on user0_.student_id=student1_.id 
+    where
+        user0_.student_id=?
+2023-Jun-01 00:06:20 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:20 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:20 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-Jun-01 00:06:21 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-Jun-01 00:06:21 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:21 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:26 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:29 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:29 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        settings 
+    WHERE
+        setting_key = ?
+2023-Jun-01 00:06:29 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        * 
+    FROM
+        admissions 
+    WHERE
+        student_id = ? 
+    ORDER BY
+        orders
+2023-Jun-01 00:06:35 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        YEAR(MIN(md.created_date)) 
+    FROM
+        major_details md
+2023-Jun-01 00:06:35 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 
+2023-Jun-01 00:06:35 AM [AWT-EventQueue-0] DEBUG org.hibernate.SQL - 
+    /* dynamic native SQL query */ SELECT
+        md.id,
+        m.code,
+        m.name,
+        GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes,
+        md.bench_mark,
+        md.amount_student_received,
+        m.id AS major_id 
+    FROM
+        majors m 
+    LEFT JOIN
+        major_block mb 
+            ON m.id = mb.major_id  
+    LEFT JOIN
+        blocks b 
+            ON mb.block_id = b.id  
+    LEFT JOIN
+        major_details md 
+            ON m.id = md.major_id 
+            AND YEAR(md.created_date) = ? 
+            AND md.status = ? 
+    WHERE
+        (
+            COALESCE(?, '') = '' 
+            OR m.code LIKE CONCAT('%', ?, '%') 
+            OR m.name LIKE CONCAT('%', ?, '%')
+        )
+    GROUP BY
+        m.id 

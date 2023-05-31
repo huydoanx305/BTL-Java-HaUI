@@ -25,7 +25,7 @@ public class MajorDetail extends DateAuditing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "amount_student_received", nullable = false)
+    @Column(name = "amount_student_received")
     private Integer amountStudentReceived;
 
     @Column(name = "bench_mark")

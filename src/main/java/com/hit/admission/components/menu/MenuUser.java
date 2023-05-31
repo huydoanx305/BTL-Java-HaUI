@@ -30,10 +30,8 @@ public class MenuUser extends javax.swing.JPanel {
     private void init() {
         listMenu1.addItem(new ModelMenu("2.png", "Hồ sơ", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("3.png", "Ngành", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("4.png", "Đăng ký nguyện vọng", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("4.png", "Các nguyện vọng đã đăng ký", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("5.png", "Setting", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("6.png", "Logout", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("4.png", "Danh sách nguyện vọng đã đăng ký", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("6.png", "Đăng xuất", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
     }
 

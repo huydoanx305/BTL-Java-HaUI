@@ -5,7 +5,8 @@ import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.StudentDTO;
 import com.hit.admission.mapper.StudentMapper;
 import com.hit.admission.model.Student;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -21,7 +22,7 @@ import org.hibernate.type.StringType;
  */
 public class StudentController extends BaseDAO {
 
-    private final Logger logger = Logger.getLogger(StudentController.class);
+    private final Logger logger = LogManager.getLogger(StudentController.class);
 
     private final StudentMapper studentMapper;
 
@@ -76,6 +77,10 @@ public class StudentController extends BaseDAO {
         } finally {
             close(session);
         }
+    }
+    
+    public Student getStudentById(Integer studentId) throws Exception {
+        return (Student) findById(Student.class, studentId);
     }
 
     public CommonResponse createStudent(StudentDTO studentDTO) throws Exception {
