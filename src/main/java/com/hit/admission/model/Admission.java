@@ -29,9 +29,15 @@ public class Admission extends DateAuditing {
 
     @Column(name = "total_score")
     private Float totalScore;
-    
+
+    /**
+     * 1. Pending
+     * 2. Pass
+     * 3. Fail
+     * 4. Skip
+     */
     @Column(name = "status", nullable = false)
-    private Boolean status;
+    private Integer status;
 
     //link to table Student
     @ManyToOne

@@ -8,6 +8,7 @@ import com.hit.admission.constants.SettingConstant;
 import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.MajorDetailController;
 import com.hit.admission.controller.SettingController;
+import com.hit.admission.controller.StudentController;
 import com.hit.admission.dto.AdmissionCreateDTO;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.MajorDetailDTO;
@@ -33,6 +34,8 @@ public class MajorView extends javax.swing.JPanel {
     private final MajorDetailController majorDetailController;
 
     private final AdmissionController admissionController;
+    
+    private final StudentController studentController;
 
     private final SettingController settingController;
 
@@ -40,13 +43,13 @@ public class MajorView extends javax.swing.JPanel {
         initComponents();
         this.majorDetailController = new MajorDetailController();
         this.admissionController = new AdmissionController();
+        this.studentController = new StudentController();
         this.settingController = new SettingController();
 
         table.setTableHeader(TableHeader.customTableHeader(table.getTableHeader()));
         EventButtonTableClick registerEvent = new EventButtonTableClick() {
             @Override
             public void onClick(int row) {
-
                 if (checkMajorRegistor()) {
                     setupDialog(row);
                 }
@@ -90,25 +93,31 @@ public class MajorView extends javax.swing.JPanel {
     }
 
     private boolean checkMajorRegistor() {
-        LocalDateTime now = LocalDateTime.now();
-        Integer year = Integer.valueOf(filterYear.getSelectedItem().toString());
-        if (!year.equals(now.getYear())) {
-            JOptionPane.showMessageDialog(null, "Thời gian đăng ký ngành này đã kết thúc!");
+        CommonResponse checkInfoResponse = studentController.checkInfoStudent(CurrentUserLogin.user.getStudentId());
+        if (checkInfoResponse.getStatus().equals(Boolean.FALSE)) {
+            JOptionPane.showMessageDialog(null, checkInfoResponse.getMessage());
             return false;
         }
-        Setting startTimeSetting = settingController.getSettingByKey(SettingConstant.START_TIME_ADMISSION);
-        Setting endTimeSetting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime startTime = LocalDateTime.parse(startTimeSetting.getValue(), dateTimeFormatter);
-        LocalDateTime endTime = LocalDateTime.parse(endTimeSetting.getValue(), dateTimeFormatter);
-        if (now.isBefore(startTime)) {
-            JOptionPane.showMessageDialog(null, "Thời gian đăng ký chưa bắt đầu!");
-            return false;
-        }
-        if (now.isAfter(endTime)) {
-            JOptionPane.showMessageDialog(null, "Thời gian đăng ký đã kết thúc!");
-            return false;
-        }
+
+//        LocalDateTime now = LocalDateTime.now();
+//        Integer year = Integer.valueOf(filterYear.getSelectedItem().toString());
+//        if (!year.equals(now.getYear())) {
+//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký ngành này đã kết thúc!");
+//            return false;
+//        }
+//        Setting startTimeSetting = settingController.getSettingByKey(SettingConstant.START_TIME_ADMISSION);
+//        Setting endTimeSetting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime startTime = LocalDateTime.parse(startTimeSetting.getValue(), dateTimeFormatter);
+//        LocalDateTime endTime = LocalDateTime.parse(endTimeSetting.getValue(), dateTimeFormatter);
+//        if (now.isBefore(startTime)) {
+//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký chưa bắt đầu!");
+//            return false;
+//        }
+//        if (now.isAfter(endTime)) {
+//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký đã kết thúc!");
+//            return false;
+//        }
         return true;
     }
 

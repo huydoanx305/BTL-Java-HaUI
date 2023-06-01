@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -43,6 +44,7 @@ public class ManageStudentView extends javax.swing.JPanel {
 
         spTable.getVerticalScrollBar().setUnitIncrement(9);
         spTable.getHorizontalScrollBar().setUnitIncrement(9);
+        spTable.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         tableStudent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableStudent.setTableHeader(TableHeader.customTableHeader(tableStudent.getTableHeader()));
 

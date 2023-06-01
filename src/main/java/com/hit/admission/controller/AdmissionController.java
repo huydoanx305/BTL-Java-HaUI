@@ -1,9 +1,13 @@
 package com.hit.admission.controller;
 
 import com.hit.admission.base.BaseDAO;
+import com.hit.admission.constants.AdmissionStatus;
 import com.hit.admission.dto.AdmissionCreateDTO;
+import com.hit.admission.dto.AdmissionResultDTO;
+import com.hit.admission.dto.AdmissionResultRequest;
 import com.hit.admission.dto.AdmissionUpdateDTO;
 import com.hit.admission.dto.CommonResponse;
+import com.hit.admission.mapper.AdmissionMapper;
 import com.hit.admission.model.Admission;
 import com.hit.admission.model.Block;
 import com.hit.admission.model.Major;
@@ -17,6 +21,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.mapstruct.factory.Mappers;
 
 /**
  *
@@ -30,10 +35,46 @@ public class AdmissionController extends BaseDAO {
 
     private final BlockController blockController;
 
+    private final AdmissionMapper admissionMapper;
+
     public AdmissionController() {
         this.studentController = new StudentController();
         this.majorController = new MajorController();
         this.blockController = new BlockController();
+        this.admissionMapper = Mappers.getMapper(AdmissionMapper.class);
+    }
+
+    public List<AdmissionResultDTO> getAdmissionResult(AdmissionResultRequest request) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT s.last_name, s.first_name, s.order_number, s.citizen_identity_number, ");
+            sql.append("s.email, s.phone_number, s.gender, s.address, a.orders, b.code, a.total_score ");
+            sql.append("FROM admissions a ");
+            sql.append("INNER JOIN students s on s.id = a.student_id ");
+            sql.append("INNER JOIN blocks b on b.id = a.block_id ");
+            sql.append("INNER JOIN majors m on m.id = a.major_id ");
+            sql.append("WHERE YEAR(a.created_date) = :year AND (:status IS NULL OR a.status = :status) AND m.code = :code ");
+            sql.append("AND (COALESCE(:keyword, '') = '' OR s.last_name LIKE CONCAT('%', :keyword, '%') ");
+            sql.append("OR s.last_name LIKE CONCAT('%', :keyword, '%') OR s.first_name LIKE CONCAT('%', :keyword, '%')");
+            sql.append("OR s.order_number LIKE CONCAT('%', :keyword, '%') OR s.citizen_identity_number LIKE CONCAT('%', :keyword, '%')");
+            sql.append("OR s.email LIKE CONCAT('%', :keyword, '%') OR s.phone_number LIKE CONCAT('%', :keyword, '%'))");
+            Query query = session.createNativeQuery(sql.toString());
+            query.setParameter("year", request.getYear());
+            query.setParameter("keyword", request.getKeyword());
+            query.setParameter("code", request.getCode());
+            query.setParameter("status", request.getStatusAdmission());
+            List<Object[]> queryResults = query.getResultList();
+            tx.commit();
+            return admissionMapper.objectsToAdmissionResultDtos(queryResults);
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            return null;
+        } finally {
+            close(session);
+        }
     }
 
     public List<Admission> getAdmissionsByStudentId(Integer studentId) {
@@ -97,7 +138,7 @@ public class AdmissionController extends BaseDAO {
             admission.setStudent(student);
             admission.setMajor(major);
             admission.setBlock(block);
-            admission.setStatus(Boolean.FALSE);
+            admission.setStatus(AdmissionStatus.PENDING.getValue());
             save(admission);
             return new CommonResponse(Boolean.TRUE, "Đăng ký nguyện vọng thành công");
         } catch (Exception e) {
@@ -110,7 +151,7 @@ public class AdmissionController extends BaseDAO {
         try {
             List<Admission> admissions = getAdmissionsByStudentId(admissionUpdateDTO.getStudentId());
             for (Admission am : admissions) {
-                if (am.getOrders().equals(admissionUpdateDTO.getOrders()) 
+                if (am.getOrders().equals(admissionUpdateDTO.getOrders())
                         && !admissionUpdateDTO.getOldOrders().equals(admissionUpdateDTO.getOrders())) {
                     return new CommonResponse(Boolean.FALSE, "Bạn đã đăng ký nguyện vọng " + admissionUpdateDTO.getOrders());
                 }
@@ -120,7 +161,7 @@ public class AdmissionController extends BaseDAO {
             Block block = blockController.getBlockByCode(admissionUpdateDTO.getBlock());
             admission.setOrders(admissionUpdateDTO.getOrders());
             admission.setBlock(block);
-            admission.setStatus(Boolean.FALSE);
+            admission.setStatus(AdmissionStatus.PENDING.getValue());
             save(admission);
             return new CommonResponse(Boolean.TRUE, "Cập nhật nguyện vọng thành công");
         } catch (Exception e) {

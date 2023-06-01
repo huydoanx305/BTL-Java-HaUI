@@ -1,7 +1,9 @@
 package com.hit.admission.mapper;
 
 import com.hit.admission.dto.MajorDetailDTO;
+import com.hit.admission.dto.StatisticMajorDetailDTO;
 import com.hit.admission.model.MajorDetail;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -35,6 +37,26 @@ public interface MajorDetailMapper {
         List<MajorDetailDTO> results = new LinkedList<>();
         objects.forEach(object -> {
             results.add(objectToMajorDetailDto(object));
+        });
+        return results;
+    }
+
+    default StatisticMajorDetailDTO objectToStatisticMajorDetailDto(Object[] object) {
+        String code = (String) object[0];
+        String name = (String) object[1];
+        Integer amountStudentReceived = (Integer) object[2];
+        Float benchMark = (Float) object[3];
+        BigInteger  numberOfStudentsRegistered = (BigInteger) object[4];
+        BigInteger numberOfStudentsPassed = (BigInteger) object[5];
+        BigInteger numberOfStudentsFailed = (BigInteger) object[6];
+        return new StatisticMajorDetailDTO(code, name, amountStudentReceived, benchMark,
+                numberOfStudentsRegistered.intValue(), numberOfStudentsPassed.intValue(), numberOfStudentsFailed.intValue());
+    }
+
+    default List<StatisticMajorDetailDTO> objectsToStatisticMajorDetailDtos(List<Object[]> objects) {
+        List<StatisticMajorDetailDTO> results = new LinkedList<>();
+        objects.forEach(object -> {
+            results.add(objectToStatisticMajorDetailDto(object));
         });
         return results;
     }

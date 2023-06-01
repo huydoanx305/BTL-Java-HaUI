@@ -6,6 +6,8 @@ import com.hit.admission.controller.AuthController;
 import com.hit.admission.dto.SignUpRequest;
 import com.hit.admission.utils.DateUtils;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -140,6 +142,7 @@ public class SignUp extends javax.swing.JFrame {
 
         jcmndIssueDate.setBackground(new java.awt.Color(255, 255, 255));
         jcmndIssueDate.setBorder(null);
+        jcmndIssueDate.setDateFormatString("yyyy-MM-dd");
         jPanel1.add(jcmndIssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 350, 260, 45));
 
         jLabel14.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
@@ -239,6 +242,15 @@ public class SignUp extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập mật khẩu!");
             return;
         }
+        Pattern patternPass = Pattern.compile(CommonConstant.REGEX_PASSWORD);
+        Matcher matcherPass = patternPass.matcher(password);
+        if(!matcherPass.matches()) {
+            JOptionPane.showMessageDialog(null, "Mật khẩu không hợp lệ! Mật khẩu phải bao gồm:"
+                    + "\nTối thiểu 8 ký tự \nCó ít nhất một chữ số "
+                    + "\nCó ít nhất một chữ cái viết thường "
+                    + "\nKhông được chứa khoảng trắng và ký tự trống");
+            return;
+        }
         if (ObjectUtils.isEmpty(jcmndIssueDate.getDate())) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn ngày cấp CMND/CCCD!");
             return;
@@ -251,8 +263,20 @@ public class SignUp extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập email!");
             return;
         }
+        Pattern patternEmail = Pattern.compile(CommonConstant.REGEX_EMAIL);
+        Matcher matcherEmail = patternEmail.matcher(email);
+        if(!matcherEmail.matches()) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ email không hợp lệ!");
+            return;
+        }
         if (ObjectUtils.isEmpty(phoneNumber)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        Pattern patternPhone = Pattern.compile(CommonConstant.REGEX_PHONE);
+        Matcher matcherPhone = patternPhone.matcher(phoneNumber);
+        if(!matcherPhone.matches()) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ!");
             return;
         }
         LocalDate cmndDate = DateUtils.asLocalDate(jcmndIssueDate.getDate());

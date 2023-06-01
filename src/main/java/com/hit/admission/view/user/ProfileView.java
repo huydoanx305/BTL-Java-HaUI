@@ -1,6 +1,7 @@
 package com.hit.admission.view.user;
 
 import com.hit.admission.components.dialog.ConfirmDialog;
+import com.hit.admission.constants.CommonConstant;
 import com.hit.admission.controller.StudentController;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.StudentDTO;
@@ -9,6 +10,8 @@ import com.hit.admission.utils.DateUtils;
 import com.hit.admission.utils.ResourceUtil;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -62,7 +65,7 @@ public class ProfileView extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private boolean validateInput() {
         if (ObjectUtils.isEmpty(jHoDem.getText())) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập họ đệm!");
@@ -70,10 +73,6 @@ public class ProfileView extends javax.swing.JPanel {
         }
         if (ObjectUtils.isEmpty(jTen.getText())) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên!");
-            return false;
-        }
-        if (ObjectUtils.isEmpty(jHoDem.getText())) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ đệm!");
             return false;
         }
         if (ObjectUtils.isEmpty(jSoCMND.getText())) {
@@ -92,8 +91,20 @@ public class ProfileView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập email!");
             return false;
         }
+        Pattern patternEmail = Pattern.compile(CommonConstant.REGEX_EMAIL);
+        Matcher matcherEmail = patternEmail.matcher(jEmail.getText());
+        if(!matcherEmail.matches()) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ email không hợp lệ!");
+            return false;
+        }
         if (ObjectUtils.isEmpty(jPhone.getText())) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại!");
+            return false;
+        }
+        Pattern patternPhone = Pattern.compile(CommonConstant.REGEX_PHONE);
+        Matcher matcherPhone = patternPhone.matcher(jPhone.getText());
+        if(!matcherPhone.matches()) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ!");
             return false;
         }
         return true;
@@ -282,9 +293,11 @@ public class ProfileView extends javax.swing.JPanel {
         panelBorder1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 470, 170, -1));
 
         jNgayCap.setBorder(null);
+        jNgayCap.setDateFormatString("yyyy-MM-dd");
         panelBorder1.add(jNgayCap, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 180, 260, 32));
 
         jNgaySinh.setBorder(null);
+        jNgaySinh.setDateFormatString("yyyy-MM-dd");
         panelBorder1.add(jNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 500, 260, 32));
 
         jNu.setBackground(new java.awt.Color(255, 255, 255));
@@ -355,7 +368,7 @@ public class ProfileView extends javax.swing.JPanel {
     }//GEN-LAST:event_jUploadActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!validateInput()) {
+        if (!validateInput()) {
             return;
         }
         StudentDTO studentDTO = new StudentDTO();
@@ -367,11 +380,9 @@ public class ProfileView extends javax.swing.JPanel {
         studentDTO.setCitizenIdentityIssueDate(ngayCap);
         studentDTO.setCitizenIdentityIssuedBy(jNguoiCap.getText());
         studentDTO.setEmail(jEmail.getText());
+        studentDTO.setPhoneNumber(jPhone.getText());
         if (ObjectUtils.isNotEmpty(jSBD.getText())) {
             studentDTO.setOrderNumber(jSBD.getText());
-        }
-        if (ObjectUtils.isNotEmpty(jPhone.getText())) {
-            studentDTO.setPhoneNumber(jPhone.getText());
         }
         if (ObjectUtils.isNotEmpty(jDanToc.getText())) {
             studentDTO.setEthnic(jDanToc.getText());

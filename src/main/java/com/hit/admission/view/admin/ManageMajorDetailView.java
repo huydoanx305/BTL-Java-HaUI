@@ -447,7 +447,7 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
                 } else {
                     JOptionPane.showMessageDialog(null, readFileResponse.getMessage());
                 }
-            } catch (Exception e) {
+            } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
                 e.printStackTrace();
             }

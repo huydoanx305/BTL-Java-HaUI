@@ -5,7 +5,6 @@ import com.hit.admission.dto.BlockDTO;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.mapper.BlockMapper;
 import com.hit.admission.model.Block;
-import com.hit.admission.model.Major;
 import com.hit.admission.model.Subject;
 import java.util.Arrays;
 import java.util.HashSet;

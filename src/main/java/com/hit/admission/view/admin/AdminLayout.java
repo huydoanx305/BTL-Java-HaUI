@@ -37,10 +37,10 @@ public class AdminLayout extends javax.swing.JFrame {
                         setForm(new ManageSubjectView());
                         break;
                     case 5:
-                        //danh sách nguyện vọng
+                        setForm(new ManageAdmissionView());
                         break;
                     case 6:
-                        //thống kê
+                        setForm(new StatisticView());
                         break;
                     case 7:
                         setForm(new SettingView());

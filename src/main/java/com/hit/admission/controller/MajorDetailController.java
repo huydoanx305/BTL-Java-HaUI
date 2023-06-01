@@ -1,9 +1,11 @@
 package com.hit.admission.controller;
 
 import com.hit.admission.base.BaseDAO;
+import com.hit.admission.constants.AdmissionStatus;
 import com.hit.admission.constants.MajorDetailsStatus;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.MajorDetailDTO;
+import com.hit.admission.dto.StatisticMajorDetailDTO;
 import com.hit.admission.mapper.MajorDetailMapper;
 import com.hit.admission.model.Major;
 import com.hit.admission.model.MajorDetail;
@@ -29,32 +31,32 @@ import org.mapstruct.factory.Mappers;
  * @author Huy Doan
  */
 public class MajorDetailController extends BaseDAO {
-    
+
     private final Logger logger = LogManager.getLogger(MajorDetailController.class);
-    
+
     private final MajorController majorController;
-    
+
     private final MajorDetailMapper majorDetailMapper;
-    
+
     public MajorDetailController() {
         this.majorController = new MajorController();
         this.majorDetailMapper = Mappers.getMapper(MajorDetailMapper.class);
     }
-    
+
     public List<MajorDetailDTO> getMajorDetailsForAdmin(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         try {
-            StringBuilder stringQuery = new StringBuilder();
-            stringQuery.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
-            stringQuery.append("md.bench_mark, md.amount_student_received, m.id AS major_id  FROM majors m ");
-            stringQuery.append("LEFT JOIN major_details md ON m.id = md.major_id AND YEAR(md.created_date) = :year ");
-            stringQuery.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
-            stringQuery.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");
-            stringQuery.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
-            stringQuery.append("OR m.name LIKE CONCAT('%', :keyword, '%'))");
-            stringQuery.append("GROUP BY m.id ");
-            Query query = session.createNativeQuery(stringQuery.toString());
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
+            sql.append("md.bench_mark, md.amount_student_received, m.id AS major_id  FROM majors m ");
+            sql.append("LEFT JOIN major_details md ON m.id = md.major_id AND YEAR(md.created_date) = :year ");
+            sql.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
+            sql.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");
+            sql.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
+            sql.append("OR m.name LIKE CONCAT('%', :keyword, '%'))");
+            sql.append("GROUP BY m.id ");
+            Query query = session.createNativeQuery(sql.toString());
             query.setParameter("year", year, IntegerType.INSTANCE);
             query.setParameter("keyword", keyword, StringType.INSTANCE);
             List<Object[]> queryResults = query.getResultList();
@@ -69,7 +71,7 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-    
+
     public List<MajorDetailDTO> getMajorDetails(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -86,25 +88,26 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-    
+
     public List<Object[]> getResultMajors(Session session, Integer year, String keyword) {
-        StringBuilder stringQuery = new StringBuilder();
-        stringQuery.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
-        stringQuery.append("md.bench_mark, md.amount_student_received, m.id AS major_id FROM majors m ");
-        stringQuery.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
-        stringQuery.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");
-        stringQuery.append("LEFT JOIN major_details md ON m.id = md.major_id ");
-        stringQuery.append("AND YEAR(md.created_date) = :year AND md.status = :status ");
-        stringQuery.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
-        stringQuery.append("OR m.name LIKE CONCAT('%', :keyword, '%'))");
-        stringQuery.append("GROUP BY m.id ");
-        Query query = session.createNativeQuery(stringQuery.toString());
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
+        sql.append("md.bench_mark, md.amount_student_received, m.id AS major_id FROM majors m ");
+        sql.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
+        sql.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");
+        sql.append("INNER JOIN major_details md ON m.id = md.major_id ");
+        sql.append("AND md.status = :status ");
+        sql.append("WHERE YEAR(md.created_date) = :year AND md.status = :status ");
+        sql.append("AND (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
+        sql.append("OR m.name LIKE CONCAT('%', :keyword, '%'))");
+        sql.append("GROUP BY m.id ");
+        Query query = session.createNativeQuery(sql.toString());
         query.setParameter("year", year, IntegerType.INSTANCE);
         query.setParameter("status", MajorDetailsStatus.PUBLIC.toString(), StringType.INSTANCE);
         query.setParameter("keyword", keyword, StringType.INSTANCE);
         return query.getResultList();
     }
-    
+
     public Integer getYearMinMajor() {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -126,7 +129,7 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-    
+
     public MajorDetail getMajorDetailNowByMajorId(Integer majorId) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -153,7 +156,7 @@ public class MajorDetailController extends BaseDAO {
             close(session);
         }
     }
-    
+
     public CommonResponse createOrUpdateMajorDetails(List<MajorDetailDTO> majorDetailDTOs) {
         try {
             majorDetailDTOs.forEach(majorDetailDTO -> {
@@ -166,7 +169,7 @@ public class MajorDetailController extends BaseDAO {
             return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
         }
     }
-    
+
     public CommonResponse createOrUpdateMajorDetail(MajorDetailDTO majorDetailDTO) {
         try {
             Major major = majorController.getMajorByCode(majorDetailDTO.getCode());
@@ -178,7 +181,10 @@ public class MajorDetailController extends BaseDAO {
             }
             majorDetail.setStatus(MajorDetailsStatus.IMPORT);
             majorDetail.setMajor(major);
-            save(majorDetail);
+            if (ObjectUtils.isNotEmpty(majorDetail.getAmountStudentReceived())
+                    || ObjectUtils.isNotEmpty(majorDetail.getBenchMark())) {
+                save(majorDetail);
+            }
             return new CommonResponse(Boolean.TRUE, "Cập nhật thông tin chi tiết chuyên ngành thành công");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -186,7 +192,7 @@ public class MajorDetailController extends BaseDAO {
             return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
         }
     }
-    
+
     public CommonResponse deleteMajorDetailById(Integer majorDetailId) throws Exception {
         MajorDetail majorDetail = (MajorDetail) findById(MajorDetail.class, majorDetailId);
         if (ObjectUtils.isEmpty(majorDetail)) {
@@ -195,5 +201,40 @@ public class MajorDetailController extends BaseDAO {
         delete(majorDetail);
         return new CommonResponse(Boolean.TRUE, "Xóa chi tiết chuyên ngành thành công");
     }
-    
+
+    public List<StatisticMajorDetailDTO> statisticMajorDetail(Integer year, String keyword) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT m.code, m.name, md.amount_student_received, md.bench_mark, ");
+            sql.append("COUNT(a.id) AS number_of_students_registered, ");
+            sql.append("COUNT(CASE WHEN a.status = :pass THEN a.id END) AS number_of_students_passed, ");
+            sql.append("COUNT(CASE WHEN a.status = :fail THEN a.id END) AS number_of_students_failed ");
+            sql.append("FROM majors m ");
+            sql.append("INNER JOIN major_details md ON m.id = md.major_id ");
+            sql.append("AND YEAR(md.created_date) = :year ");
+            sql.append("INNER JOIN admissions a ON a.major_id = m.id ");
+            sql.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
+            sql.append("OR m.name LIKE CONCAT('%', :keyword, '%')) ");
+            sql.append("GROUP BY m.id ");
+            sql.append("ORDER BY m.name ");
+            Query query = session.createNativeQuery(sql.toString());
+            query.setParameter("pass", AdmissionStatus.PASS.getValue(), IntegerType.INSTANCE);
+            query.setParameter("fail", AdmissionStatus.FAIL.getValue(), IntegerType.INSTANCE);
+            query.setParameter("year", year, IntegerType.INSTANCE);
+            query.setParameter("keyword", keyword, StringType.INSTANCE);
+            List<Object[]> queryResults = query.getResultList();
+            tx.commit();
+            return majorDetailMapper.objectsToStatisticMajorDetailDtos(queryResults);
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            close(session);
+        }
+        return null;
+    }
+
 }

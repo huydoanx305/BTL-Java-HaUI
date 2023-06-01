@@ -33,7 +33,7 @@ public class MenuAdmin extends javax.swing.JPanel {
         listMenu1.addItem(new ModelMenu("3.png", "Quản lý chi tiết ngành", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("3.png", "Quản lý khối", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("3.png", "Quản môn học", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("4.png", "Quản lý danh sách nguyện vọng", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("4.png", "Kết quả tuyển sinh", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("5.png", "Thống kê", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("5.png", "Cài đặt", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("6.png", "Đăng xuất", ModelMenu.MenuType.MENU));

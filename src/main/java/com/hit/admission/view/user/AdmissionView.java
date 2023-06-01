@@ -7,6 +7,7 @@ import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.BlockController;
 import com.hit.admission.controller.MajorController;
 import com.hit.admission.controller.SettingController;
+import com.hit.admission.controller.StudentController;
 import com.hit.admission.dto.AdmissionCreateDTO;
 import com.hit.admission.dto.AdmissionUpdateDTO;
 import com.hit.admission.dto.BlockDTO;
@@ -38,6 +39,8 @@ public class AdmissionView extends javax.swing.JPanel {
 
     private final AdmissionController admissionController;
 
+    private final StudentController studentController;
+
     private final MajorController majorController;
 
     private final BlockController blockController;
@@ -51,6 +54,7 @@ public class AdmissionView extends javax.swing.JPanel {
     public AdmissionView() {
         initComponents();
         this.admissionController = new AdmissionController();
+        this.studentController = new StudentController();
         this.majorController = new MajorController();
         this.blockController = new BlockController();
         this.settingController = new SettingController();
@@ -66,7 +70,6 @@ public class AdmissionView extends javax.swing.JPanel {
     private void loadAdmissions() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         List<Admission> admissions = admissionController.getAdmissionsByStudentId(CurrentUserLogin.user.getStudentId());
-        boolean checkStatusAdmission = checkStatusAdmission(admissions);
         int numberRowsOfTable = admissions.size();
         model.setRowCount(numberRowsOfTable);
         for (int i = 0; i < numberRowsOfTable; i++) {
@@ -75,14 +78,21 @@ public class AdmissionView extends javax.swing.JPanel {
             model.setValueAt(admissions.get(i).getMajor().getName(), i, 2);
             model.setValueAt(admissions.get(i).getBlock().getCode(), i, 3);
             model.setValueAt(admissions.get(i).getTotalScore(), i, 4);
-            if (checkStatusAdmission) {
-                if (admissions.get(i).getStatus()) {
+            switch (admissions.get(i).getStatus()) {
+                case 1:
+                    model.setValueAt("Đang chờ", i, 5);
+                    break;
+                case 2:
                     model.setValueAt("Đậu", i, 5);
-                } else {
+                    break;
+                case 3:
+                    model.setValueAt("Trượt", i, 5);
+                    break;
+                case 4:
                     model.setValueAt(null, i, 5);
-                }
-            } else {
-                model.setValueAt("Đang chờ", i, 5);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -92,10 +102,6 @@ public class AdmissionView extends javax.swing.JPanel {
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) jKhoi.getModel();
         model.removeAllElements();
         blocks.forEach(block -> jKhoi.addItem(block.getCode()));
-    }
-
-    private boolean checkStatusAdmission(List<Admission> admissions) {
-        return admissions.stream().anyMatch(admission -> (admission.getStatus().equals(Boolean.TRUE)));
     }
 
     private void setupDialog() throws Exception {
@@ -582,6 +588,7 @@ public class AdmissionView extends javax.swing.JPanel {
         admissionUpdateDTO.setStudentId(CurrentUserLogin.user.getStudentId());
         admissionUpdateDTO.setBlock(jKhoi.getSelectedItem().toString());
         try {
+
             CommonResponse commonResponse = admissionController.updateAdmission(admissionUpdateDTO);
             if (commonResponse.getStatus().equals(Boolean.TRUE)) {
                 new ConfirmDialog(null, "Cập nhật thành công", commonResponse.getMessage());
@@ -596,6 +603,11 @@ public class AdmissionView extends javax.swing.JPanel {
 
     private void jThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jThemActionPerformed
         try {
+            CommonResponse checkInfoResponse = studentController.checkInfoStudent(CurrentUserLogin.user.getStudentId());
+            if (checkInfoResponse.getStatus().equals(Boolean.FALSE)) {
+                JOptionPane.showMessageDialog(null, checkInfoResponse.getMessage());
+                return;
+            }
             Setting startTimeSetting = settingController.getSettingByKey(SettingConstant.START_TIME_ADMISSION);
             Setting endTimeSetting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

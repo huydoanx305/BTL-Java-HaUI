@@ -78,7 +78,7 @@ public class StudentController extends BaseDAO {
             close(session);
         }
     }
-    
+
     public Student getStudentById(Integer studentId) throws Exception {
         return (Student) findById(Student.class, studentId);
     }
@@ -110,7 +110,7 @@ public class StudentController extends BaseDAO {
                 } else if (s.getCitizenIdentityNumber().equals(studentDTO.getCitizenIdentityNumber())
                         && !s.getId().equals(studentDTO.getId())) {
                     return new CommonResponse(Boolean.FALSE, "Số CMND/CCCD này đã được đăng ký!");
-                } else if (ObjectUtils.isNotEmpty(studentDTO.getOrderNumber())
+                } else if (ObjectUtils.isNotEmpty(studentDTO.getOrderNumber()) && ObjectUtils.isNotEmpty(s.getOrderNumber())
                         && s.getOrderNumber().equals(studentDTO.getOrderNumber()) && !s.getId().equals(studentDTO.getId())) {
                     return new CommonResponse(Boolean.FALSE, "SBD này đã trùng với người khác!");
                 }
@@ -137,6 +137,39 @@ public class StudentController extends BaseDAO {
         }
         delete(student);
         return new CommonResponse(Boolean.TRUE, "Xóa sinh viên thành công");
+    }
+
+    public CommonResponse checkInfoStudent(Integer studentId) {
+        try {
+            Student student = (Student) findById(Student.class, studentId);
+            if (ObjectUtils.isEmpty(student)) {
+                return new CommonResponse(Boolean.FALSE, "Không tìm thấy sinh viên có id " + studentId);
+            }
+            boolean check;
+            if (ObjectUtils.isEmpty(student.getOrderNumber())) {
+                check = false;
+            } else if (ObjectUtils.isEmpty(student.getAvatar())) {
+                check = false;
+            } else if (ObjectUtils.isEmpty(student.getAddress())) {
+                check = false;
+            } else if (ObjectUtils.isEmpty(student.getGender())) {
+                check = false;
+            } else if (ObjectUtils.isEmpty(student.getBirthDay())) {
+                check = false;
+            } else if (ObjectUtils.isEmpty(student.getEthnic())) {
+                check = false;
+            } else {
+                check = true;
+            }
+            if (check) {
+                return new CommonResponse(Boolean.TRUE, "");
+            } else {
+                return new CommonResponse(Boolean.FALSE, "Vui lòng cập nhật đầy đủ thông tin cá nhân!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+        }
     }
 
 }
