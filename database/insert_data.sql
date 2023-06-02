@@ -386,7 +386,7 @@ INSERT INTO major_details (created_date,last_modified_date,amount_student_receiv
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',40,22.8,'PUBLIC',1),
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',180,22.73,'PUBLIC',2),
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',100,23.29,'PUBLIC',3),
-('2020-08-12 00:00:00','2020-08-12 00:00:00',70,22.4,'PUBLIC',4).
+('2020-08-12 00:00:00','2020-08-12 00:00:00',70,22.4,'PUBLIC',4),
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',70,23.44,'PUBLIC',5),
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',310,22.6,'PUBLIC',7),
 ('2020-08-12 00:00:00','2020-08-12 00:00:00',390,23.55,'PUBLIC',10),
@@ -464,5 +464,5 @@ INSERT INTO admission.admissions (created_date,last_modified_date,orders,status,
 -- insert data setting
 INSERT INTO settings (`setting_key`, `setting_value`) VALUES 
 ("start_time_admission", "2023-06-01 00:00:00"),
-("end_time_admission", "2023-08-01 00:00:00")
+("end_time_admission", "2023-08-01 00:00:00");
 
