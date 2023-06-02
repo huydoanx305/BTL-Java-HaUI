@@ -14,7 +14,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
-import org.hibernate.type.StringType;
 
 /**
  *
@@ -30,11 +29,21 @@ public class StudentController extends BaseDAO {
         this.studentMapper = Mappers.getMapper(StudentMapper.class);
     }
 
-    public List<StudentDTO> getStudents(String keyword) {
+    public List<StudentDTO> getStudents(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         try {
-            List<Student> queryResults = getResultStudents(session, keyword);
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM students ");
+            sql.append("WHERE YEAR(created_date) = :year ");
+            sql.append("AND (COALESCE(:keyword, '') = '' OR first_name LIKE CONCAT('%', :keyword, '%') ");
+            sql.append("OR last_name LIKE CONCAT('%', :keyword, '%') OR citizen_identity_number LIKE CONCAT('%', :keyword, '%')");
+            sql.append("OR email LIKE CONCAT('%', :keyword, '%') OR phone_number LIKE CONCAT('%', :keyword, '%')");
+            sql.append("OR order_number LIKE CONCAT('%', :keyword, '%'))");
+            Query query = session.createNativeQuery(sql.toString(), Student.class);
+            query.setParameter("year", year);
+            query.setParameter("keyword", keyword);
+            List<Student> queryResults = query.getResultList();
             tx.commit();
             return studentMapper.toStudentDTOs(queryResults);
         } catch (Exception e) {
@@ -45,18 +54,6 @@ public class StudentController extends BaseDAO {
             close(session);
         }
         return null;
-    }
-
-    private List<Student> getResultStudents(Session session, String keyword) {
-        StringBuilder stringQuery = new StringBuilder();
-        stringQuery.append("SELECT * FROM students ");
-        stringQuery.append("WHERE (COALESCE(:keyword, '') = '' OR first_name LIKE CONCAT('%', :keyword, '%') ");
-        stringQuery.append("OR last_name LIKE CONCAT('%', :keyword, '%') OR citizen_identity_number LIKE CONCAT('%', :keyword, '%')");
-        stringQuery.append("OR email LIKE CONCAT('%', :keyword, '%') OR phone_number LIKE CONCAT('%', :keyword, '%')");
-        stringQuery.append("OR order_number LIKE CONCAT('%', :keyword, '%'))");
-        Query query = session.createNativeQuery(stringQuery.toString(), Student.class);
-        query.setParameter("keyword", keyword, StringType.INSTANCE);
-        return query.getResultList();
     }
 
     public StudentDTO getInfoStudent(Integer studentId) {
