@@ -5,6 +5,8 @@ target/
 !**/src/test/**/target/
 
 ### STS ###
+myapp.log
+.log
 .apt_generated
 .classpath
 .factorypath
@@ -12,8 +14,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-myapp.log
 
 ### IntelliJ IDEA ###
 .idea

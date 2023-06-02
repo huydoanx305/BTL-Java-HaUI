@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -98,26 +99,25 @@ public class MajorView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, checkInfoResponse.getMessage());
             return false;
         }
-
-//        LocalDateTime now = LocalDateTime.now();
-//        Integer year = Integer.valueOf(filterYear.getSelectedItem().toString());
-//        if (!year.equals(now.getYear())) {
-//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký ngành này đã kết thúc!");
-//            return false;
-//        }
-//        Setting startTimeSetting = settingController.getSettingByKey(SettingConstant.START_TIME_ADMISSION);
-//        Setting endTimeSetting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime startTime = LocalDateTime.parse(startTimeSetting.getValue(), dateTimeFormatter);
-//        LocalDateTime endTime = LocalDateTime.parse(endTimeSetting.getValue(), dateTimeFormatter);
-//        if (now.isBefore(startTime)) {
-//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký chưa bắt đầu!");
-//            return false;
-//        }
-//        if (now.isAfter(endTime)) {
-//            JOptionPane.showMessageDialog(null, "Thời gian đăng ký đã kết thúc!");
-//            return false;
-//        }
+        LocalDateTime now = LocalDateTime.now();
+        Integer year = Integer.valueOf(filterYear.getSelectedItem().toString());
+        if (!year.equals(now.getYear())) {
+            JOptionPane.showMessageDialog(null, "Thời gian đăng ký ngành này đã kết thúc!");
+            return false;
+        }
+        Setting startTimeSetting = settingController.getSettingByKey(SettingConstant.START_TIME_ADMISSION);
+        Setting endTimeSetting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startTime = LocalDateTime.parse(startTimeSetting.getValue(), dateTimeFormatter);
+        LocalDateTime endTime = LocalDateTime.parse(endTimeSetting.getValue(), dateTimeFormatter);
+        if (now.isBefore(startTime)) {
+            JOptionPane.showMessageDialog(null, "Thời gian đăng ký chưa bắt đầu!");
+            return false;
+        }
+        if (now.isAfter(endTime)) {
+            JOptionPane.showMessageDialog(null, "Thời gian đăng ký đã kết thúc!");
+            return false;
+        }
         return true;
     }
 
@@ -128,6 +128,8 @@ public class MajorView extends javax.swing.JPanel {
 
         jMaNganhDK.setText(table.getValueAt(row, 0).toString());
         jTenNganhDK.setText(table.getValueAt(row, 1).toString());
+        DefaultComboBoxModel<String> modelBlock = (DefaultComboBoxModel<String>) jKhoiDK.getModel();
+        modelBlock.removeAllElements();
         List<String> blocks = Arrays.stream(table.getValueAt(row, 2).toString().split(",")).collect(Collectors.toList());
         blocks.forEach(block -> {
             jKhoiDK.addItem(block);

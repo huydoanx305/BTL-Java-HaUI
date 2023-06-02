@@ -107,8 +107,8 @@ public class ManageAdmissionView extends javax.swing.JPanel {
             for (int i = maxYear; i >= minYear; i--) {
                 jFilterYear.addItem(String.valueOf(i));
             }
-//            DefaultComboBoxModel<String> modelBlock = (DefaultComboBoxModel<String>) jFilterNganh.getModel();
-//            modelBlock.removeAllElements();
+            DefaultComboBoxModel<String> modelBlock = (DefaultComboBoxModel<String>) jFilterNganh.getModel();
+            modelBlock.removeAllElements();
             List<MajorDTO> majorDTOs = majorController.getMajors();
             majorDTOs.forEach(majorDTO -> {
                 jFilterNganh.addItem(majorDTO.getName());

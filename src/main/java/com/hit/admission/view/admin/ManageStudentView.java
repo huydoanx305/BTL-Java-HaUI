@@ -34,7 +34,7 @@ public class ManageStudentView extends javax.swing.JPanel {
 
     private final StudentController studentController;
 
-    private Map<Integer, String> studentAvatarUrl = new HashMap<>();
+    private final Map<Integer, String> studentAvatarUrl = new HashMap<>();
 
     private File currentAvatar;
 

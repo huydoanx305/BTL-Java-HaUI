@@ -24,7 +24,7 @@ public interface AdmissionMapper {
         Integer orders = (Integer) object[8];
         String block = (String) object[9];
         Float totalScore = (Float) object[10];
-        return new AdmissionResultDTO(firstName, lastName, orderNumber, citizenIdentityNumber,
+        return new AdmissionResultDTO(lastName, firstName, orderNumber, citizenIdentityNumber,
                 email, phoneNumber, gender, address, orders, block, totalScore);
     }
 

@@ -31,18 +31,18 @@ import org.mapstruct.factory.Mappers;
  * @author Huy Doan
  */
 public class MajorDetailController extends BaseDAO {
-
+    
     private final Logger logger = LogManager.getLogger(MajorDetailController.class);
-
+    
     private final MajorController majorController;
-
+    
     private final MajorDetailMapper majorDetailMapper;
-
+    
     public MajorDetailController() {
         this.majorController = new MajorController();
         this.majorDetailMapper = Mappers.getMapper(MajorDetailMapper.class);
     }
-
+    
     public List<MajorDetailDTO> getMajorDetailsForAdmin(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -71,7 +71,7 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-
+    
     public List<MajorDetailDTO> getMajorDetails(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -88,7 +88,7 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-
+    
     public List<Object[]> getResultMajors(Session session, Integer year, String keyword) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
@@ -107,7 +107,7 @@ public class MajorDetailController extends BaseDAO {
         query.setParameter("keyword", keyword, StringType.INSTANCE);
         return query.getResultList();
     }
-
+    
     public Integer getYearMinMajor() {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -129,7 +129,7 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-
+    
     public MajorDetail getMajorDetailNowByMajorId(Integer majorId) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -156,7 +156,7 @@ public class MajorDetailController extends BaseDAO {
             close(session);
         }
     }
-
+    
     public CommonResponse createOrUpdateMajorDetails(List<MajorDetailDTO> majorDetailDTOs) {
         try {
             majorDetailDTOs.forEach(majorDetailDTO -> {
@@ -169,7 +169,7 @@ public class MajorDetailController extends BaseDAO {
             return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
         }
     }
-
+    
     public CommonResponse createOrUpdateMajorDetail(MajorDetailDTO majorDetailDTO) {
         try {
             Major major = majorController.getMajorByCode(majorDetailDTO.getCode());
@@ -177,7 +177,12 @@ public class MajorDetailController extends BaseDAO {
             if (ObjectUtils.isEmpty(majorDetail)) {
                 majorDetail = majorDetailMapper.toMajorDetail(majorDetailDTO);
             } else {
-                majorDetailMapper.updateMajorDetailFromDTO(majorDetailDTO, majorDetail);
+                if (ObjectUtils.isNotEmpty(majorDetailDTO.getAmountStudentReceived())
+                        || ObjectUtils.isNotEmpty(majorDetailDTO.getBenchMark())) {
+                    majorDetailMapper.updateMajorDetailFromDTO(majorDetailDTO, majorDetail);
+                } else {
+                    delete(majorDetail);
+                }
             }
             majorDetail.setStatus(MajorDetailsStatus.IMPORT);
             majorDetail.setMajor(major);
@@ -192,7 +197,7 @@ public class MajorDetailController extends BaseDAO {
             return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
         }
     }
-
+    
     public CommonResponse deleteMajorDetailById(Integer majorDetailId) throws Exception {
         MajorDetail majorDetail = (MajorDetail) findById(MajorDetail.class, majorDetailId);
         if (ObjectUtils.isEmpty(majorDetail)) {
@@ -201,7 +206,7 @@ public class MajorDetailController extends BaseDAO {
         delete(majorDetail);
         return new CommonResponse(Boolean.TRUE, "Xóa chi tiết chuyên ngành thành công");
     }
-
+    
     public List<StatisticMajorDetailDTO> statisticMajorDetail(Integer year, String keyword) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -236,5 +241,5 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-
+    
 }
