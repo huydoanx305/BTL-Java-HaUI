@@ -4,6 +4,14 @@ Cài đặt Apache NetBeans IDE
 
 Cài đặt MySQL phiên bản >= 8.0. Với username: root, password: 123456789
 
+Bỏ chế độ ONLY_FULL_GROUP_BY
+```sql
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+```sql
+SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+
 Cài đặt Maven 3.6 và JDK 11
 
 ## Start

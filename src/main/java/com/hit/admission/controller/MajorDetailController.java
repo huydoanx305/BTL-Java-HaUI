@@ -78,7 +78,7 @@ public class MajorDetailController extends BaseDAO {
         try {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT md.id, m.code, m.name, GROUP_CONCAT(b.code SEPARATOR ',') AS block_codes, ");
-            sql.append("IF(md.status = 'PUBLIC', md.bench_mark, NULL) AS bench_mark, ");
+            sql.append("IF(md.status = 'PUBLIC', CAST(md.bench_mark AS DECIMAL(4,2)), NULL) AS bench_mark, ");
             sql.append("md.amount_student_received, m.id AS major_id FROM majors m ");
             sql.append("LEFT JOIN major_block mb ON m.id = mb.major_id  ");
             sql.append("LEFT JOIN blocks b ON mb.block_id = b.id  ");

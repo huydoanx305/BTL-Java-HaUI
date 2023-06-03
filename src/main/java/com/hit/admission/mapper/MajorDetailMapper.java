@@ -3,6 +3,7 @@ package com.hit.admission.mapper;
 import com.hit.admission.dto.MajorDetailDTO;
 import com.hit.admission.dto.StatisticMajorDetailDTO;
 import com.hit.admission.model.MajorDetail;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +28,7 @@ public interface MajorDetailMapper {
         String code = (String) object[1];
         String name = (String) object[2];
         String blocks = (String) object[3];
-        Double benchMarkValue = (Double) object[4];
+        BigDecimal benchMarkValue = (BigDecimal) object[4];
         Float benchMark;
         if (benchMarkValue != null) {
             benchMark = benchMarkValue.floatValue();

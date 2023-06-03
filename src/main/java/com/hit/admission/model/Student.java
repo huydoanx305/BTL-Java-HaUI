@@ -64,7 +64,7 @@ public class Student extends DateAuditing {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "birthDay")
+    @Column(name = "birth_day")
     private LocalDate birthDay;
 
     @Column(name = "ethnic")
