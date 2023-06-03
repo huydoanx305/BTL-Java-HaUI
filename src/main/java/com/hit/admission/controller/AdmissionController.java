@@ -1,6 +1,5 @@
 package com.hit.admission.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hit.admission.base.BaseDAO;
 import com.hit.admission.constants.AdmissionStatus;
 import com.hit.admission.dto.AdmissionCreateDTO;
@@ -17,16 +16,9 @@ import com.hit.admission.model.Student;
 import static com.hit.admission.utils.SessionUtil.close;
 import static com.hit.admission.utils.SessionUtil.getSession;
 import static com.hit.admission.utils.SessionUtil.rollback;
-import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -179,6 +171,16 @@ public class AdmissionController extends BaseDAO {
         }
     }
 
+    public CommonResponse adminUpdateAdmission(Admission admission) {
+        try {
+            save(admission);
+            return new CommonResponse(Boolean.TRUE, "Cập nhật nguyện vọng thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+        }
+    }
+
     public CommonResponse deleteAdmission(Integer studentId, Integer orders) throws Exception {
         Admission admission = getAdmissionsByStudentIdAndOrders(studentId, orders);
         if (ObjectUtils.isEmpty(admission)) {
@@ -188,25 +190,24 @@ public class AdmissionController extends BaseDAO {
         return new CommonResponse(Boolean.TRUE, "Xóa nguyện vọng thành công");
     }
 
-    public CommonResponse handleAdmissonAndSendMail(int year) {
-        Session session = getSession();
-        Transaction tx = session.beginTransaction();
+    public void handleAdmissonAndSendMail(int year) {
         try {
             List<StudentDTO> students = studentController.getStudents(year, "");
-            for (StudentDTO student : students) {
-                List<Admission> admissions = getAdmissionsByStudentId(student.getId());
-                
-            }
-            tx.commit();
-            return null;
+            students.stream().map(student -> {
+                StringBuilder threadName = new StringBuilder("Thread-");
+                threadName.append(student.getLastName());
+                threadName.append("-");
+                threadName.append(student.getFirstName());
+                threadName.append("-");
+                threadName.append(student.getOrderNumber());
+                ThreadHandleAdmission thread = new ThreadHandleAdmission(threadName.toString(), year, student);
+                return thread;
+            }).forEachOrdered(thread -> {
+                thread.start();
+            });
         } catch (Exception e) {
-            rollback(tx);
             e.printStackTrace();
-            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
-        } finally {
-            close(session);
         }
     }
 
-    
 }

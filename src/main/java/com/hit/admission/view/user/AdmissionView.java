@@ -6,6 +6,7 @@ import com.hit.admission.constants.SettingConstant;
 import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.BlockController;
 import com.hit.admission.controller.MajorController;
+import com.hit.admission.controller.MajorDetailController;
 import com.hit.admission.controller.SettingController;
 import com.hit.admission.controller.StudentController;
 import com.hit.admission.dto.AdmissionCreateDTO;
@@ -16,6 +17,8 @@ import com.hit.admission.dto.MajorDTO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import com.hit.admission.model.Admission;
+import com.hit.admission.model.Major;
+import com.hit.admission.model.MajorDetail;
 import com.hit.admission.model.Setting;
 import com.hit.admission.utils.CurrentUserLogin;
 import java.time.LocalDateTime;
@@ -43,6 +46,8 @@ public class AdmissionView extends javax.swing.JPanel {
 
     private final MajorController majorController;
 
+    private final MajorDetailController majorDetailController;
+
     private final BlockController blockController;
 
     private final SettingController settingController;
@@ -56,6 +61,7 @@ public class AdmissionView extends javax.swing.JPanel {
         this.admissionController = new AdmissionController();
         this.studentController = new StudentController();
         this.majorController = new MajorController();
+        this.majorDetailController = new MajorDetailController();
         this.blockController = new BlockController();
         this.settingController = new SettingController();
         this.majorDtos = new HashMap<>();
@@ -73,23 +79,28 @@ public class AdmissionView extends javax.swing.JPanel {
         int numberRowsOfTable = admissions.size();
         model.setRowCount(numberRowsOfTable);
         for (int i = 0; i < numberRowsOfTable; i++) {
-            model.setValueAt(admissions.get(i).getOrders(), i, 0);
-            model.setValueAt(admissions.get(i).getMajor().getCode(), i, 1);
-            model.setValueAt(admissions.get(i).getMajor().getName(), i, 2);
-            model.setValueAt(admissions.get(i).getBlock().getCode(), i, 3);
-            model.setValueAt(admissions.get(i).getTotalScore(), i, 4);
-            switch (admissions.get(i).getStatus()) {
+            Admission admission = admissions.get(i);
+            Major major = admission.getMajor();
+            model.setValueAt(admission.getOrders(), i, 0);
+            model.setValueAt(major.getCode(), i, 1);
+            model.setValueAt(major.getName(), i, 2);
+            model.setValueAt(admission.getBlock().getCode(), i, 3);
+            model.setValueAt(admission.getTotalScore(), i, 4);
+            MajorDetail majorDetail = majorDetailController.getMajorDetailByMajorIdAndYear(
+                    major.getId(), admission.getCreatedDate().getYear());
+             model.setValueAt(majorDetail.getBenchMark(), i, 5);
+            switch (admission.getStatus()) {
                 case 1:
-                    model.setValueAt("Đang chờ", i, 5);
+                    model.setValueAt("Đang chờ", i, 6);
                     break;
                 case 2:
-                    model.setValueAt("Đậu", i, 5);
+                    model.setValueAt("Đậu", i, 6);
                     break;
                 case 3:
-                    model.setValueAt("Trượt", i, 5);
+                    model.setValueAt("Trượt", i, 6);
                     break;
                 case 4:
-                    model.setValueAt(null, i, 5);
+                    model.setValueAt(null, i, 6);
                     break;
                 default:
                     break;
@@ -312,11 +323,11 @@ public class AdmissionView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nguyện vọng", "Mã ngành", "Tên ngành", "Khối", "Tổng điểm", "Trạng thái"
+                "Nguyện vọng", "Mã ngành", "Tên ngành", "Khối", "Tổng điểm", "Điểm chuẩn", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, true, true
+                false, true, false, false, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -331,7 +342,8 @@ public class AdmissionView extends javax.swing.JPanel {
             table.getColumnModel().getColumn(2).setPreferredWidth(250);
             table.getColumnModel().getColumn(3).setPreferredWidth(40);
             table.getColumnModel().getColumn(4).setPreferredWidth(40);
-            table.getColumnModel().getColumn(5).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(50);
+            table.getColumnModel().getColumn(6).setPreferredWidth(100);
         }
 
         jPanelButton.setBackground(new java.awt.Color(255, 255, 255));
@@ -669,4 +681,8 @@ public class AdmissionView extends javax.swing.JPanel {
     private javax.swing.JScrollPane spTable;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
+    private void setValueAt(Integer orders, int i, int i0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
