@@ -38,18 +38,18 @@ public class SendMailUtil {
             message.setFrom(new InternetAddress(username));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             // Thiết lập tiêu đề email
-            message.setSubject("Thông báo chúng tuyển");
+            message.setSubject("Thông báo chúng tuyển", "UTF-8");
             // Thiết lập nội dung email dạng HTML
             String htmlContent = htmlThongBaoChungTuyen(tenNganh);
-            message.setContent(htmlContent, "text/html");
+            message.setContent(htmlContent, "text/html; charset=UTF-8");
             // Gửi email
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
-
-    public static String htmlThongBaoChungTuyen(String tenNganh) {
+    
+    private static String htmlThongBaoChungTuyen(String tenNganh) {
         StringBuilder html = new StringBuilder();
         html.append("<!DOCTYPE html>\n"
                 + "<html>\n"
@@ -105,7 +105,7 @@ public class SendMailUtil {
                 + "        </p>\n"
                 + "        <p>\n"
                 + "            Ngành chúng tuyển: "
-                + tenNganh + "\n"
+                + tenNganh + "\n</br>"
                 + "            Thời gian nhập học: 05/09/2023\n"
                 + "        </p>\n"
                 + "        <p>\n"

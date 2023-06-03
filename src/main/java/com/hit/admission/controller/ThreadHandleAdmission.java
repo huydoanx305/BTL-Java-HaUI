@@ -39,8 +39,6 @@ public class ThreadHandleAdmission extends Thread {
 
     private final MajorDetailController majorDetailController;
 
-    private final SendMailUtil sendMailUtil;
-
     //Map<studentId, Map<blockCode, totalScore>>
     private final Map<Integer, Map<String, Float>> totalScoreStudentByBlock;
 
@@ -50,7 +48,6 @@ public class ThreadHandleAdmission extends Thread {
         this.student = student;
         this.admissionController = new AdmissionController();
         this.majorDetailController = new MajorDetailController();
-        this.sendMailUtil = new SendMailUtil();
         this.totalScoreStudentByBlock = new HashMap<>();
         logger.info("Creating " + threadName);
     }
@@ -81,6 +78,7 @@ public class ThreadHandleAdmission extends Thread {
                         admission.setStatus(3);
                     } else {
                         admission.setStatus(2);
+                        SendMailUtil.send(student.getEmail(), admission.getMajor().getName());
                     }
                 }
                 Thread.sleep(50);
@@ -94,6 +92,7 @@ public class ThreadHandleAdmission extends Thread {
         logger.info("Thread " + threadName + " hoàn thành.");
     }
 
+    @Override
     public void start() {
         logger.info("Starting " + threadName);
         if (thread == null) {
