@@ -27,7 +27,13 @@ public interface MajorDetailMapper {
         String code = (String) object[1];
         String name = (String) object[2];
         String blocks = (String) object[3];
-        Float benchMark = (Float) object[4];
+        Double benchMarkValue = (Double) object[4];
+        Float benchMark;
+        if (benchMarkValue != null) {
+            benchMark = benchMarkValue.floatValue();
+        } else {
+            benchMark = null;
+        }
         Integer amountStudentReceived = (Integer) object[5];
         Integer majorId = (Integer) object[6];
         return new MajorDetailDTO(id, code, name, amountStudentReceived, benchMark, blocks, majorId);
@@ -46,7 +52,7 @@ public interface MajorDetailMapper {
         String name = (String) object[1];
         Integer amountStudentReceived = (Integer) object[2];
         Float benchMark = (Float) object[3];
-        BigInteger  numberOfStudentsRegistered = (BigInteger) object[4];
+        BigInteger numberOfStudentsRegistered = (BigInteger) object[4];
         BigInteger numberOfStudentsPassed = (BigInteger) object[5];
         BigInteger numberOfStudentsFailed = (BigInteger) object[6];
         return new StatisticMajorDetailDTO(code, name, amountStudentReceived, benchMark,

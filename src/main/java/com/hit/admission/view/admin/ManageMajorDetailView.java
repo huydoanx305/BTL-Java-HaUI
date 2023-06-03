@@ -1,5 +1,7 @@
 package com.hit.admission.view.admin;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.hit.admission.base.job.CongBoDiemChuanJob;
 import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.components.table.TableHeader;
 import com.hit.admission.controller.MajorDetailController;
@@ -12,7 +14,11 @@ import com.hit.admission.utils.ResourceUtil;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -21,6 +27,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang3.ObjectUtils;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
@@ -29,6 +43,8 @@ import org.apache.commons.lang3.ObjectUtils;
 public class ManageMajorDetailView extends javax.swing.JPanel {
 
     private final MajorDetailController majorDetailController;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public ManageMajorDetailView() {
         initComponents();
@@ -132,10 +148,27 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
         jDiemChuan.setText(null);
     }
 
+    private void setupDialog() throws Exception {
+        jChonThoiGian.setTitle("Đăng ký nguyện vọng");
+        jChonThoiGian.setSize(470, 175);
+        jChonThoiGian.setLocationRelativeTo(null);
+        final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DatePickerSettings settingDateNgayBatDau = new DatePickerSettings();
+        settingDateNgayBatDau.setFormatForDatesCommonEra(formatterDate);
+        jThoiGianCBD.datePicker.setSettings(settingDateNgayBatDau);
+        jThoiGianCBD.setDateTimePermissive(LocalDateTime.now().plusMinutes(1));
+        jChonThoiGian.setVisible(true);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jChonThoiGian = new javax.swing.JDialog();
+        panelBorder2 = new com.hit.admission.components.border.PanelBorder();
+        jLabel8 = new javax.swing.JLabel();
+        jThoiGianCBD = new com.github.lgooddatepicker.components.DateTimePicker();
+        jBtnXacNhan = new javax.swing.JButton();
         panelBorder1 = new com.hit.admission.components.border.PanelBorder();
         jLabel2 = new javax.swing.JLabel();
         jId = new javax.swing.JTextField();
@@ -161,6 +194,62 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
         tableMajor = new javax.swing.JTable();
+
+        jLabel8.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        jLabel8.setText("Chọn thời gian công bố điểm chuẩn");
+
+        jBtnXacNhan.setBackground(new java.awt.Color(66, 133, 244));
+        jBtnXacNhan.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
+        jBtnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
+        jBtnXacNhan.setText("Xác nhận");
+        jBtnXacNhan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnXacNhanActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
+        panelBorder2.setLayout(panelBorder2Layout);
+        panelBorder2Layout.setHorizontalGroup(
+            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBorder2Layout.createSequentialGroup()
+                .addGroup(panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBorder2Layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jLabel8))
+                    .addGroup(panelBorder2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jThoiGianCBD, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jBtnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(137, 137, 137))
+        );
+        panelBorder2Layout.setVerticalGroup(
+            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBorder2Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jThoiGianCBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jBtnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        javax.swing.GroupLayout jChonThoiGianLayout = new javax.swing.GroupLayout(jChonThoiGian.getContentPane());
+        jChonThoiGian.getContentPane().setLayout(jChonThoiGianLayout);
+        jChonThoiGianLayout.setHorizontalGroup(
+            jChonThoiGianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jChonThoiGianLayout.createSequentialGroup()
+                .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jChonThoiGianLayout.setVerticalGroup(
+            jChonThoiGianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelBorder2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel2.setText("ID");
@@ -455,7 +544,11 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
     }//GEN-LAST:event_jImportActionPerformed
 
     private void jCongBoDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCongBoDiemActionPerformed
-        // TODO add your handling code here:
+        try {
+            setupDialog();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jCongBoDiemActionPerformed
 
     private void jClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearActionPerformed
@@ -499,8 +592,44 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jXoaActionPerformed
 
+    private void jBtnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnXacNhanActionPerformed
+        // Khởi tạo đối tượng Scheduler
+        Scheduler scheduler;
+        try {
+            scheduler = StdSchedulerFactory.getDefaultScheduler();
+            scheduler.start();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            return;
+        }
+        // Tạo cron expression từ thời gian được chọn bởi người dùng
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("ss mm HH dd MM ? yyyy");
+        LocalDateTime selectedDateTime = jThoiGianCBD.getDateTimeStrict();
+        String cronExpression = dateFormat.format(selectedDateTime);
+        // Tạo công việc (Job)
+        JobDetail job = JobBuilder.newJob(CongBoDiemChuanJob.class)
+                .withIdentity("congBoDiemChuanJob", "group1")
+                .build();
+        // Tạo trigger với cron expression
+        CronTrigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("triggerCongBoDiem", "group1")
+                .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+                .build();
+        // Lập lịch công việc với trigger
+        try {
+            scheduler.scheduleJob(job, trigger);
+            new ConfirmDialog(null, "Thành công", "Tạo lịch công bố điểm thành công");
+            jChonThoiGian.dispose();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            return;
+        }
+    }//GEN-LAST:event_jBtnXacNhanActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnXacNhan;
     private javax.swing.JTextField jChiTieu;
+    private javax.swing.JDialog jChonThoiGian;
     private javax.swing.JButton jClear;
     private javax.swing.JButton jCongBoDiem;
     private javax.swing.JTextField jDiemChuan;
@@ -516,13 +645,16 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField jMaNganh;
     private javax.swing.JPanel jPanel1;
     private com.hit.admission.components.search.Search jSearch;
     private javax.swing.JButton jSua;
     private javax.swing.JTextField jTenNganh;
+    private com.github.lgooddatepicker.components.DateTimePicker jThoiGianCBD;
     private javax.swing.JButton jXoa;
     private com.hit.admission.components.border.PanelBorder panelBorder1;
+    private com.hit.admission.components.border.PanelBorder panelBorder2;
     private javax.swing.JScrollPane spTable;
     private javax.swing.JTable tableMajor;
     // End of variables declaration//GEN-END:variables

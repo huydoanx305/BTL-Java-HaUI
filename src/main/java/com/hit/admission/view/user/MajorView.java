@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  *
@@ -35,7 +36,7 @@ public class MajorView extends javax.swing.JPanel {
     private final MajorDetailController majorDetailController;
 
     private final AdmissionController admissionController;
-    
+
     private final StudentController studentController;
 
     private final SettingController settingController;

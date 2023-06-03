@@ -55,6 +55,11 @@ public class AuthController extends BaseDAO {
             }
             User user = users.get(0);
             tx.commit();
+            if(user.getIsLocked()) {
+                loginResponse.setStatus(Boolean.FALSE);
+                loginResponse.setMessage("Tài khoản này đã hết hạn không thể đăng nhập!");
+                return loginResponse;
+            }
             if (passwordEncoder.matches(password, user.getPassword())) {
                 loginResponse.setStatus(Boolean.TRUE);
                 loginResponse.setMessage(CommonConstant.SUCCESS);

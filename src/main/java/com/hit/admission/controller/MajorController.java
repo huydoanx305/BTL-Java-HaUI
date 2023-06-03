@@ -45,7 +45,6 @@ public class MajorController extends BaseDAO {
             Query query = session.createNativeQuery(sql, Major.class);
             List<Major> queryResults = query.getResultList();
             tx.commit();
-            System.out.println(queryResults.size());
             return majorMapper.toMajorDTOs(queryResults);
         } catch (Exception e) {
             rollback(tx);

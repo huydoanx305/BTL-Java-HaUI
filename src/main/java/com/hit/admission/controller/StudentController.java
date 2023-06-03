@@ -1,9 +1,12 @@
 package com.hit.admission.controller;
 
 import com.hit.admission.base.BaseDAO;
+import com.hit.admission.constants.RoleConstant;
+import com.hit.admission.constants.SettingConstant;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.StudentDTO;
 import com.hit.admission.mapper.StudentMapper;
+import com.hit.admission.model.Setting;
 import com.hit.admission.model.Student;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -23,9 +26,12 @@ public class StudentController extends BaseDAO {
 
     private final Logger logger = LogManager.getLogger(StudentController.class);
 
+    private final SettingController settingController;
+    
     private final StudentMapper studentMapper;
 
     public StudentController() {
+        this.settingController = new SettingController();
         this.studentMapper = Mappers.getMapper(StudentMapper.class);
     }
 
@@ -166,6 +172,28 @@ public class StudentController extends BaseDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+        }
+    }
+    
+    public CommonResponse lockStudents() {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Setting setting = settingController.getSettingByKey(SettingConstant.END_TIME_ADMISSION);
+            String sql = "UPDATE users SET is_locked = 1 WHERE created_date < :end_time_admission AND role_name = :roleName";
+            Query query = session.createNativeQuery(sql);
+            query.setParameter("end_time_admission", setting.getValue());
+            query.setParameter("roleName", RoleConstant.ROLE_USER.toString());
+            query.executeUpdate();
+            tx.commit();
+            return new CommonResponse(Boolean.TRUE, "Khóa các tài khoản đã kết thúc đợt đăng ký thành công");
+        } catch (Exception e) {
+            rollback(tx);
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+        } finally {
+            close(session);
         }
     }
 

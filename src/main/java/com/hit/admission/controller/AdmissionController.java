@@ -1,5 +1,6 @@
 package com.hit.admission.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hit.admission.base.BaseDAO;
 import com.hit.admission.constants.AdmissionStatus;
 import com.hit.admission.dto.AdmissionCreateDTO;
@@ -7,6 +8,7 @@ import com.hit.admission.dto.AdmissionResultDTO;
 import com.hit.admission.dto.AdmissionResultRequest;
 import com.hit.admission.dto.AdmissionUpdateDTO;
 import com.hit.admission.dto.CommonResponse;
+import com.hit.admission.dto.StudentDTO;
 import com.hit.admission.mapper.AdmissionMapper;
 import com.hit.admission.model.Admission;
 import com.hit.admission.model.Block;
@@ -15,9 +17,16 @@ import com.hit.admission.model.Student;
 import static com.hit.admission.utils.SessionUtil.close;
 import static com.hit.admission.utils.SessionUtil.getSession;
 import static com.hit.admission.utils.SessionUtil.rollback;
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -179,4 +188,25 @@ public class AdmissionController extends BaseDAO {
         return new CommonResponse(Boolean.TRUE, "Xóa nguyện vọng thành công");
     }
 
+    public CommonResponse handleAdmissonAndSendMail(int year) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            List<StudentDTO> students = studentController.getStudents(year, "");
+            for (StudentDTO student : students) {
+                List<Admission> admissions = getAdmissionsByStudentId(student.getId());
+                
+            }
+            tx.commit();
+            return null;
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+        } finally {
+            close(session);
+        }
+    }
+
+    
 }

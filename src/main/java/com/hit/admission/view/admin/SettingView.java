@@ -4,6 +4,7 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.constants.SettingConstant;
 import com.hit.admission.controller.SettingController;
+import com.hit.admission.controller.StudentController;
 import com.hit.admission.dto.CommonResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +17,8 @@ import javax.swing.JOptionPane;
 public class SettingView extends javax.swing.JPanel {
 
     private final SettingController settingController;
+    
+    private final StudentController studentController;
 
     private final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -23,8 +26,9 @@ public class SettingView extends javax.swing.JPanel {
 
     public SettingView() {
         initComponents();
-        settingController = new SettingController();
-
+        this.settingController = new SettingController();
+        this.studentController = new StudentController();
+        
         setupDateTimePicker();
         loadSettings();
     }
@@ -60,7 +64,7 @@ public class SettingView extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jNgayKetThuc = new com.github.lgooddatepicker.components.DateTimePicker();
         jNgayBatDau = new com.github.lgooddatepicker.components.DateTimePicker();
-        jButton1 = new javax.swing.JButton();
+        jLockStudents = new javax.swing.JButton();
 
         jLabel2.setText("Ngày bắt đầu mở đăng ký nguyện vọng");
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
@@ -105,7 +109,12 @@ public class SettingView extends javax.swing.JPanel {
         jNgayBatDau.setBackground(new java.awt.Color(255, 255, 255));
         jNgayBatDau.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
 
-        jButton1.setText("Khóa các tài khoản đã kết thúc đợt đăng ký");
+        jLockStudents.setText("Khóa các tài khoản đã kết thúc đợt đăng ký");
+        jLockStudents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLockStudentsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -134,7 +143,7 @@ public class SettingView extends javax.swing.JPanel {
                             .addComponent(jNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(jButton1)))
+                        .addComponent(jLockStudents)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
@@ -153,7 +162,7 @@ public class SettingView extends javax.swing.JPanel {
                 .addGap(38, 38, 38)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLockStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -200,11 +209,29 @@ public class SettingView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jSuaActionPerformed
 
+    private void jLockStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLockStudentsActionPerformed
+        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn khóa?",
+                "Xác nhận khóa", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            try {
+                CommonResponse response = studentController.lockStudents();
+                if (response.getStatus().equals(Boolean.TRUE)) {
+                    new ConfirmDialog(null, "Khóa thành công", response.getMessage());
+                } else {
+                    JOptionPane.showMessageDialog(null, response.getMessage());
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jLockStudentsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton jLockStudents;
     private com.github.lgooddatepicker.components.DateTimePicker jNgayBatDau;
     private com.github.lgooddatepicker.components.DateTimePicker jNgayKetThuc;
     private javax.swing.JPanel jPanel1;
