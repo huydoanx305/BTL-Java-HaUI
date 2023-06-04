@@ -1,6 +1,7 @@
 package com.hit.admission.mapper;
 
 import com.hit.admission.dto.AdmissionResultDTO;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -13,19 +14,29 @@ import org.mapstruct.Mapper;
 public interface AdmissionMapper {
 
     default AdmissionResultDTO objectToAdmissionResultDto(Object[] object) {
-        String lastName = (String) object[0];
-        String firstName = (String) object[1];
-        String orderNumber = (String) object[2];
-        String citizenIdentityNumber = (String) object[3];
-        String email = (String) object[4];
-        String phoneNumber = (String) object[5];
-        String gender = (String) object[6];
-        String address = (String) object[7];
-        Integer orders = (Integer) object[8];
-        String block = (String) object[9];
-        Float totalScore = (Float) object[10];
-        return new AdmissionResultDTO(lastName, firstName, orderNumber, citizenIdentityNumber,
-                email, phoneNumber, gender, address, orders, block, totalScore);
+        String majorCode = (String) object[0];
+        String majorName = (String) object[1];
+        String lastName = (String) object[2];
+        String firstName = (String) object[3];
+        String orderNumber = (String) object[4];
+        String citizenIdentityNumber = (String) object[5];
+        String email = (String) object[6];
+        String phoneNumber = (String) object[7];
+        String gender = (String) object[8];
+        String address = (String) object[9];
+        Integer orders = (Integer) object[10];
+        String block = (String) object[11];
+        BigDecimal totalScoreValue = (BigDecimal) object[12];
+        Float totalScore;
+        if (totalScoreValue != null) {
+            totalScore = totalScoreValue.floatValue();
+        } else {
+            totalScore = null;
+        }
+        Integer admissionStatus = (Integer) object[13];
+        return new AdmissionResultDTO(majorCode, majorName, lastName, firstName, orderNumber, 
+                citizenIdentityNumber, email, phoneNumber, gender, address, orders, 
+                block, totalScore, admissionStatus);
     }
 
     default List<AdmissionResultDTO> objectsToAdmissionResultDtos(List<Object[]> objects) {

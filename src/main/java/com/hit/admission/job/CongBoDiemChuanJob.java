@@ -1,6 +1,7 @@
-package com.hit.admission.base.job;
+package com.hit.admission.job;
 
 import com.hit.admission.controller.AdmissionController;
+import java.time.LocalDate;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -17,7 +18,7 @@ public class CongBoDiemChuanJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        admissionController.handleAdmissonAndSendMail(2020);
+        admissionController.handleAdmissonAndSendMail(LocalDate.now().getYear());
         // Lấy đối tượng Scheduler từ JobExecutionContext
         Scheduler scheduler = context.getScheduler();
         try {

@@ -1,5 +1,6 @@
 package com.hit.admission.view.admin;
 
+import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.components.table.TableHeader;
 import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.MajorController;
@@ -7,9 +8,8 @@ import com.hit.admission.controller.MajorDetailController;
 import com.hit.admission.dto.AdmissionResultDTO;
 import com.hit.admission.dto.AdmissionResultRequest;
 import com.hit.admission.dto.MajorDTO;
-import com.hit.admission.event.EventButtonSearchClick;
+import com.hit.admission.utils.ExcelAdmissionUtil;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -70,10 +70,10 @@ public class ManageAdmissionView extends javax.swing.JPanel {
         Integer status;
         switch (jFilterStatus.getSelectedItem().toString()) {
             case "Đậu":
-                status = 1;
+                status = 2;
                 break;
             case "Trượt":
-                status = 2;
+                status = 3;
                 break;
             default:
                 status = null;
@@ -86,17 +86,18 @@ public class ManageAdmissionView extends javax.swing.JPanel {
         int numberRowsOfTable = admissionResult.size();
         model.setRowCount(numberRowsOfTable);
         for (int i = 0; i < numberRowsOfTable; i++) {
-            model.setValueAt(admissionResult.get(i).getLastName(), i, 0);
-            model.setValueAt(admissionResult.get(i).getFirstName(), i, 1);
-            model.setValueAt(admissionResult.get(i).getOrderNumber(), i, 2);
-            model.setValueAt(admissionResult.get(i).getCitizenIdentityNumber(), i, 3);
-            model.setValueAt(admissionResult.get(i).getEmail(), i, 4);
-            model.setValueAt(admissionResult.get(i).getPhoneNumber(), i, 5);
-            model.setValueAt(admissionResult.get(i).getGender(), i, 6);
-            model.setValueAt(admissionResult.get(i).getAddress(), i, 7);
-            model.setValueAt(admissionResult.get(i).getOrders(), i, 8);
-            model.setValueAt(admissionResult.get(i).getBlock(), i, 9);
-            model.setValueAt(admissionResult.get(i).getTotalScore(), i, 10);
+            model.setValueAt(i + 1, i, 0);
+            model.setValueAt(admissionResult.get(i).getLastName(), i, 1);
+            model.setValueAt(admissionResult.get(i).getFirstName(), i, 2);
+            model.setValueAt(admissionResult.get(i).getOrderNumber(), i, 3);
+            model.setValueAt(admissionResult.get(i).getCitizenIdentityNumber(), i, 4);
+            model.setValueAt(admissionResult.get(i).getEmail(), i, 5);
+            model.setValueAt(admissionResult.get(i).getPhoneNumber(), i, 6);
+            model.setValueAt(admissionResult.get(i).getGender(), i, 7);
+            model.setValueAt(admissionResult.get(i).getAddress(), i, 8);
+            model.setValueAt(admissionResult.get(i).getOrders(), i, 9);
+            model.setValueAt(admissionResult.get(i).getBlock(), i, 10);
+            model.setValueAt(admissionResult.get(i).getTotalScore(), i, 11);
         }
     }
 
@@ -197,11 +198,11 @@ public class ManageAdmissionView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Họ đệm", "Tên", "SBD", "Số CMND/CCCD", "Email", "SĐT", "Giới tính", "Địa chỉ", "Nguyện vọng", "Khối", "Tổng điểm"
+                "STT", "Họ đệm", "Tên", "SBD", "Số CMND/CCCD", "Email", "SĐT", "Giới tính", "Địa chỉ", "Nguyện vọng", "Khối", "Tổng điểm"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true, true, true, true, true
+                true, false, false, false, false, true, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -212,17 +213,18 @@ public class ManageAdmissionView extends javax.swing.JPanel {
         table.setRowHeight(40);
         spTable.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(100);
-            table.getColumnModel().getColumn(1).setPreferredWidth(80);
-            table.getColumnModel().getColumn(2).setPreferredWidth(70);
-            table.getColumnModel().getColumn(3).setPreferredWidth(130);
+            table.getColumnModel().getColumn(0).setPreferredWidth(40);
+            table.getColumnModel().getColumn(1).setPreferredWidth(100);
+            table.getColumnModel().getColumn(2).setPreferredWidth(80);
+            table.getColumnModel().getColumn(3).setPreferredWidth(70);
             table.getColumnModel().getColumn(4).setPreferredWidth(130);
-            table.getColumnModel().getColumn(5).setPreferredWidth(80);
-            table.getColumnModel().getColumn(6).setPreferredWidth(70);
-            table.getColumnModel().getColumn(7).setPreferredWidth(160);
-            table.getColumnModel().getColumn(8).setPreferredWidth(100);
-            table.getColumnModel().getColumn(9).setPreferredWidth(40);
-            table.getColumnModel().getColumn(10).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(130);
+            table.getColumnModel().getColumn(6).setPreferredWidth(80);
+            table.getColumnModel().getColumn(7).setPreferredWidth(70);
+            table.getColumnModel().getColumn(8).setPreferredWidth(160);
+            table.getColumnModel().getColumn(9).setPreferredWidth(100);
+            table.getColumnModel().getColumn(10).setPreferredWidth(40);
+            table.getColumnModel().getColumn(11).setPreferredWidth(100);
         }
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
@@ -239,7 +241,7 @@ public class ManageAdmissionView extends javax.swing.JPanel {
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(spTable)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 905, Short.MAX_VALUE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 890, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         panelBorder1Layout.setVerticalGroup(
@@ -258,7 +260,7 @@ public class ManageAdmissionView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, 902, Short.MAX_VALUE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,11 +271,45 @@ public class ManageAdmissionView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jExportFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExportFileActionPerformed
-        // TODO add your handling code here:
+        Integer year = Integer.valueOf(jFilterYear.getSelectedItem().toString());
+        Integer status;
+        switch (jFilterStatus.getSelectedItem().toString()) {
+            case "Đậu":
+                status = 2;
+                break;
+            case "Trượt":
+                status = 3;
+                break;
+            default:
+                status = null;
+                break;
+        }
+        String tenNganh = jFilterNganh.getSelectedItem().toString();
+        String code = majorsMap.get(tenNganh);
+        AdmissionResultRequest request = new AdmissionResultRequest(year, "", code, status);
+        String pathFile = String.format("D:/ket-qua-tuyen-sinh-nam-%s-nganh-%s.xlsx" , year, code);
+        ExcelAdmissionUtil.exportFile(request, pathFile);
+        new ConfirmDialog(null, "Lưu thành công", "File đã được lưu vào " + pathFile);
     }//GEN-LAST:event_jExportFileActionPerformed
 
     private void jExportFileAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExportFileAllActionPerformed
-        // TODO add your handling code here:
+        Integer year = Integer.valueOf(jFilterYear.getSelectedItem().toString());
+        Integer status;
+        switch (jFilterStatus.getSelectedItem().toString()) {
+            case "Đậu":
+                status = 2;
+                break;
+            case "Trượt":
+                status = 3;
+                break;
+            default:
+                status = null;
+                break;
+        }
+        AdmissionResultRequest request = new AdmissionResultRequest(year, "", null, status);
+        String pathFile = String.format("D:/ket-qua-tuyen-sinh-nam-%s.xlsx" , year);
+        ExcelAdmissionUtil.exportFileAll(request, pathFile);
+        new ConfirmDialog(null, "Lưu thành công", "File đã được lưu vào " + pathFile);
     }//GEN-LAST:event_jExportFileAllActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,6 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdmissionResultDTO {
+    
+    private String majorCode;
+    
+    private String majorName;
 
     private String lastName;
 
@@ -32,5 +36,7 @@ public class AdmissionResultDTO {
     private String block;
     
     private Float totalScore;
+    
+    private Integer status;
     
 }

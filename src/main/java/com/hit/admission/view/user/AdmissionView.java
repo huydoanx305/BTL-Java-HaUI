@@ -157,8 +157,8 @@ public class AdmissionView extends javax.swing.JPanel {
                     if (ObjectUtils.isNotEmpty(table.getValueAt(selectedRow, 4))) {
                         jTongDiem.setText(table.getValueAt(selectedRow, 4).toString());
                     }
-                    if (ObjectUtils.isNotEmpty(table.getValueAt(selectedRow, 5))) {
-                        jTrangThai.setText(table.getValueAt(selectedRow, 5).toString());
+                    if (ObjectUtils.isNotEmpty(table.getValueAt(selectedRow, 6))) {
+                        jTrangThai.setText(table.getValueAt(selectedRow, 6).toString());
                     }
                 }
             }

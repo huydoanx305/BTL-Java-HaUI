@@ -175,7 +175,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập tên đăng nhập!");
             return;
         }
-        if (ObjectUtils.isEmpty(jpassword)) {
+        if (ObjectUtils.isEmpty(password)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập mật khẩu!");
             return;
         }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hit.admission.dto.StudentDTO;
 import com.hit.admission.model.Admission;
 import com.hit.admission.model.MajorDetail;
-import com.hit.admission.utils.SendMailUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +55,7 @@ public class ThreadHandleAdmission extends Thread {
     public void run() {
         logger.info("Running " + threadName);
         try {
+
             List<Admission> admissions = admissionController.getAdmissionsByStudentId(student.getId());
             Map<String, Float> mapTotalSocre = new HashMap<>();
             for (Admission admission : admissions) {
@@ -78,7 +78,17 @@ public class ThreadHandleAdmission extends Thread {
                         admission.setStatus(3);
                     } else {
                         admission.setStatus(2);
-                        SendMailUtil.send(student.getEmail(), admission.getMajor().getName());
+                        StringBuilder threadNameSendMail = new StringBuilder("Thread-SendMail-");
+                        threadNameSendMail.append(student.getLastName());
+                        threadNameSendMail.append("-");
+                        threadNameSendMail.append(student.getFirstName());
+                        threadNameSendMail.append("-");
+                        threadNameSendMail.append(student.getOrderNumber());
+                        String majorName = admission.getMajor().getName();
+                        String toEmail = student.getEmail();
+                        ThreadSendMailPassAdmission threadSendMail
+                                = new ThreadSendMailPassAdmission(threadNameSendMail.toString(), toEmail, majorName);
+                        threadSendMail.start();
                     }
                 }
                 Thread.sleep(50);
@@ -88,6 +98,8 @@ public class ThreadHandleAdmission extends Thread {
             });
         } catch (InterruptedException e) {
             logger.error("Thread " + threadName + " bị gián đoạn.");
+        } catch (Exception e) {
+            logger.error("Thread " + threadName + " bị lỗi: " + e.getMessage());
         }
         logger.info("Thread " + threadName + " hoàn thành.");
     }

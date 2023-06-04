@@ -151,7 +151,7 @@ public class MajorDetailController extends BaseDAO {
             close(session);
         }
     }
-    
+
     public MajorDetail getMajorDetailByMajorIdAndYear(Integer majorId, Integer year) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -240,9 +240,9 @@ public class MajorDetailController extends BaseDAO {
             sql.append("COUNT(CASE WHEN a.status = :fail THEN a.id END) AS number_of_students_failed ");
             sql.append("FROM majors m ");
             sql.append("INNER JOIN major_details md ON m.id = md.major_id ");
-            sql.append("AND YEAR(md.created_date) = :year ");
             sql.append("INNER JOIN admissions a ON a.major_id = m.id ");
-            sql.append("WHERE (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
+            sql.append("WHERE YEAR(md.created_date) = :year AND YEAR(a.created_date) = :year ");
+            sql.append("AND (COALESCE(:keyword, '') = '' OR m.code LIKE CONCAT('%', :keyword, '%') ");
             sql.append("OR m.name LIKE CONCAT('%', :keyword, '%')) ");
             sql.append("GROUP BY m.id ");
             sql.append("ORDER BY m.name ");
@@ -263,8 +263,8 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
-    
-    public CommonResponse changePublicMajorDetail(MajorDetailDTO majorDetailDTO) {
+
+    public void changePublicMajorDetail() {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         try {
@@ -273,11 +273,9 @@ public class MajorDetailController extends BaseDAO {
             query.setParameter("nowYear", LocalDate.now().getYear(), IntegerType.INSTANCE);
             query.executeUpdate();
             tx.commit();
-            return new CommonResponse(Boolean.TRUE, "Công bố điểm thành công");
         } catch (Exception e) {
             logger.error(e.getMessage());
             e.printStackTrace();
-            return new CommonResponse(Boolean.FALSE, "Hệ thống đã xảy ra lỗi. Vui lòng quay lại sau!");
         }
     }
 

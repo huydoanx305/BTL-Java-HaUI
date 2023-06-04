@@ -33,6 +33,8 @@ public class AdmissionController extends BaseDAO {
     private final StudentController studentController;
 
     private final MajorController majorController;
+    
+    private final MajorDetailController majorDetailController;
 
     private final BlockController blockController;
 
@@ -41,6 +43,7 @@ public class AdmissionController extends BaseDAO {
     public AdmissionController() {
         this.studentController = new StudentController();
         this.majorController = new MajorController();
+        this.majorDetailController = new MajorDetailController();
         this.blockController = new BlockController();
         this.admissionMapper = Mappers.getMapper(AdmissionMapper.class);
     }
@@ -50,22 +53,53 @@ public class AdmissionController extends BaseDAO {
         Transaction tx = session.beginTransaction();
         try {
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT s.last_name, s.first_name, s.order_number, s.citizen_identity_number, ");
-            sql.append("s.email, s.phone_number, s.gender, s.address, a.orders, b.code, a.total_score ");
+            sql.append("SELECT m.code AS major_name, m.name, s.last_name, s.first_name, s.order_number, s.citizen_identity_number, ");
+            sql.append("s.email, s.phone_number, s.gender, s.address, a.orders, b.code, CAST(a.total_score AS DECIMAL(4,2)), a.status ");
             sql.append("FROM admissions a ");
             sql.append("INNER JOIN students s on s.id = a.student_id ");
             sql.append("INNER JOIN blocks b on b.id = a.block_id ");
             sql.append("INNER JOIN majors m on m.id = a.major_id ");
-            sql.append("WHERE YEAR(a.created_date) = :year AND (:status IS NULL OR a.status = :status) AND m.code = :code ");
+            sql.append("WHERE YEAR(a.created_date) = :year AND m.code = :code ");
+            sql.append("AND ((:status IS NULL AND a.status IN (2, 3)) OR a.status = :status)");
             sql.append("AND (COALESCE(:keyword, '') = '' OR s.last_name LIKE CONCAT('%', :keyword, '%') ");
             sql.append("OR s.last_name LIKE CONCAT('%', :keyword, '%') OR s.first_name LIKE CONCAT('%', :keyword, '%')");
             sql.append("OR s.order_number LIKE CONCAT('%', :keyword, '%') OR s.citizen_identity_number LIKE CONCAT('%', :keyword, '%')");
-            sql.append("OR s.email LIKE CONCAT('%', :keyword, '%') OR s.phone_number LIKE CONCAT('%', :keyword, '%'))");
+            sql.append("OR s.email LIKE CONCAT('%', :keyword, '%') OR s.phone_number LIKE CONCAT('%', :keyword, '%')) ");
+            sql.append("ORDER BY a.total_score DESC ");
             Query query = session.createNativeQuery(sql.toString());
             query.setParameter("year", request.getYear());
             query.setParameter("keyword", request.getKeyword());
             query.setParameter("code", request.getCode());
             query.setParameter("status", request.getStatusAdmission());
+            List<Object[]> queryResults = query.getResultList();
+            tx.commit();
+            return admissionMapper.objectsToAdmissionResultDtos(queryResults);
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            return null;
+        } finally {
+            close(session);
+        }
+    }
+    
+    public List<AdmissionResultDTO> getAdmissionResultByYearAndStatus(Integer year, Integer status) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT m.code AS major_name, m.name, s.last_name, s.first_name, s.order_number, s.citizen_identity_number, ");
+            sql.append("s.email, s.phone_number, s.gender, s.address, a.orders, b.code, CAST(a.total_score AS DECIMAL(4,2)), a.status ");
+            sql.append("FROM admissions a ");
+            sql.append("INNER JOIN students s on s.id = a.student_id ");
+            sql.append("INNER JOIN blocks b on b.id = a.block_id ");
+            sql.append("INNER JOIN majors m on m.id = a.major_id ");
+            sql.append("WHERE YEAR(a.created_date) = :year ");
+            sql.append("AND ((:status IS NULL AND a.status IN (2, 3)) OR a.status = :status)");
+            sql.append("ORDER BY m.name, a.total_score DESC ");
+            Query query = session.createNativeQuery(sql.toString());
+            query.setParameter("year", year);
+            query.setParameter("status", status);
             List<Object[]> queryResults = query.getResultList();
             tx.commit();
             return admissionMapper.objectsToAdmissionResultDtos(queryResults);
@@ -192,6 +226,7 @@ public class AdmissionController extends BaseDAO {
 
     public void handleAdmissonAndSendMail(int year) {
         try {
+            majorDetailController.changePublicMajorDetail();
             List<StudentDTO> students = studentController.getStudents(year, "");
             students.stream().map(student -> {
                 StringBuilder threadName = new StringBuilder("Thread-");

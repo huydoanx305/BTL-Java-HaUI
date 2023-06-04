@@ -1,7 +1,7 @@
 package com.hit.admission.view.admin;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.hit.admission.base.job.CongBoDiemChuanJob;
+import com.hit.admission.job.CongBoDiemChuanJob;
 import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.components.table.TableHeader;
 import com.hit.admission.controller.MajorDetailController;
@@ -17,8 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
