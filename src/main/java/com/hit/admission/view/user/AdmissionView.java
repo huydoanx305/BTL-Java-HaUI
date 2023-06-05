@@ -5,7 +5,6 @@ import com.hit.admission.components.table.TableHeader;
 import com.hit.admission.constants.SettingConstant;
 import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.BlockController;
-import com.hit.admission.controller.MajorController;
 import com.hit.admission.controller.MajorDetailController;
 import com.hit.admission.controller.SettingController;
 import com.hit.admission.controller.StudentController;
@@ -13,7 +12,7 @@ import com.hit.admission.dto.AdmissionCreateDTO;
 import com.hit.admission.dto.AdmissionUpdateDTO;
 import com.hit.admission.dto.BlockDTO;
 import com.hit.admission.dto.CommonResponse;
-import com.hit.admission.dto.MajorDTO;
+import com.hit.admission.dto.MajorDetailDTO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import com.hit.admission.model.Admission;
@@ -21,6 +20,7 @@ import com.hit.admission.model.Major;
 import com.hit.admission.model.MajorDetail;
 import com.hit.admission.model.Setting;
 import com.hit.admission.utils.CurrentUserLogin;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -44,15 +44,13 @@ public class AdmissionView extends javax.swing.JPanel {
 
     private final StudentController studentController;
 
-    private final MajorController majorController;
-
     private final MajorDetailController majorDetailController;
 
     private final BlockController blockController;
 
     private final SettingController settingController;
 
-    private final Map<String, MajorDTO> majorDtos;
+    private final Map<String, MajorDetailDTO> majorDtos;
 
     private Integer admissionOrdersSelected = null;
 
@@ -60,7 +58,6 @@ public class AdmissionView extends javax.swing.JPanel {
         initComponents();
         this.admissionController = new AdmissionController();
         this.studentController = new StudentController();
-        this.majorController = new MajorController();
         this.majorDetailController = new MajorDetailController();
         this.blockController = new BlockController();
         this.settingController = new SettingController();
@@ -122,10 +119,10 @@ public class AdmissionView extends javax.swing.JPanel {
 
         DefaultComboBoxModel<String> modelTenNganh = (DefaultComboBoxModel<String>) jTenNganhDK.getModel();
         modelTenNganh.removeAllElements();
-        List<MajorDTO> majorDTOs = majorController.getMajors();
-        majorDTOs.forEach(majorDTO -> {
-            majorDtos.put(majorDTO.getName(), majorDTO);
-            jTenNganhDK.addItem(majorDTO.getName());
+        List<MajorDetailDTO> majorDetailDTOs = majorDetailController.getMajorDetails(LocalDate.now().getYear(), "");
+        majorDetailDTOs.forEach(majorDetailDTO -> {
+            majorDtos.put(majorDetailDTO.getName(), majorDetailDTO);
+            jTenNganhDK.addItem(majorDetailDTO.getName());
         });
 
         jMaNganhDK.setText(majorDtos.get(jTenNganhDK.getSelectedItem().toString()).getCode());
