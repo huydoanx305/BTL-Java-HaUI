@@ -9,6 +9,7 @@ import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.MajorDetailDTO;
 import com.hit.admission.dto.ReadFileExcelResponse;
 import com.hit.admission.event.EventButtonSearchClick;
+import com.hit.admission.model.MajorDetail;
 import com.hit.admission.utils.ExcelMajorUtil;
 import com.hit.admission.utils.ResourceUtil;
 import java.awt.HeadlessException;
@@ -24,6 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -542,6 +544,11 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
     }//GEN-LAST:event_jImportActionPerformed
 
     private void jCongBoDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCongBoDiemActionPerformed
+        List<MajorDetail> majorDetails = majorDetailController.getMajorDetailsHaveCriteriaNoBenchmarks(LocalDate.now().getYear());
+        if (CollectionUtils.isNotEmpty(majorDetails)) {
+            JOptionPane.showMessageDialog(this, "Cần cập nhật điểm chuẩn cho các ngành tuyển sinh (Đã có chỉ tiêu tuyển sinh)!");
+            return;
+        }
         try {
             setupDialog();
         } catch (Exception ex) {

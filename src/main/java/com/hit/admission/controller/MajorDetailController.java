@@ -102,6 +102,28 @@ public class MajorDetailController extends BaseDAO {
         }
         return null;
     }
+    
+    public List<MajorDetail> getMajorDetailsHaveCriteriaNoBenchmarks(int year){
+         Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM major_details md ");
+            sql.append("WHERE YEAR(md.created_date) = :year ");
+            sql.append("AND (md.amount_student_received is not null and md.bench_mark is null)");
+            Query query = session.createNativeQuery(sql.toString(), MajorDetail.class);
+            query.setParameter("year", year, IntegerType.INSTANCE);
+            tx.commit();
+            return query.getResultList();
+        } catch (Exception e) {
+            rollback(tx);
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            close(session);
+        }
+        return null;
+    }
 
     public Integer getYearMinMajor() {
         Session session = getSession();
