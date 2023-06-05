@@ -33,7 +33,7 @@ public class AdmissionController extends BaseDAO {
     private final StudentController studentController;
 
     private final MajorController majorController;
-    
+
     private final MajorDetailController majorDetailController;
 
     private final BlockController blockController;
@@ -82,7 +82,7 @@ public class AdmissionController extends BaseDAO {
             close(session);
         }
     }
-    
+
     public List<AdmissionResultDTO> getAdmissionResultByYearAndStatus(Integer year, Integer status) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
@@ -244,5 +244,26 @@ public class AdmissionController extends BaseDAO {
             e.printStackTrace();
         }
     }
+
+    public void randomTotalScoreStudentByBlock(int year) {
+        try {
+            List<StudentDTO> students = studentController.getStudents(year, "");
+            students.stream().map(student -> {
+                StringBuilder threadName = new StringBuilder("Thread-Random-Total-Score-");
+                threadName.append(student.getLastName());
+                threadName.append("-");
+                threadName.append(student.getFirstName());
+                threadName.append("-");
+                threadName.append(student.getOrderNumber());
+                ThreadHandleRandomTotalScore thread = new ThreadHandleRandomTotalScore(threadName.toString(), student);
+                return thread;
+            }).forEachOrdered(thread -> {
+                thread.start();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

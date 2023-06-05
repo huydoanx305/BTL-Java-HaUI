@@ -6,4 +6,6 @@ public class SettingConstant {
     
     public static final String END_TIME_ADMISSION = "end_time_admission";
     
+    public static final String CALL_TOTAL_SCORE_STUDENT = "call_total_score_student";
+    
 }

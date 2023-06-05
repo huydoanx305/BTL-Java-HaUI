@@ -1275,5 +1275,6 @@ INSERT INTO admission.admissions (id,created_date,last_modified_date,orders,stat
 -- insert data setting
 INSERT INTO admission.settings (`setting_key`, `setting_value`) VALUES 
 ("start_time_admission", "2023-06-01 00:00:00"),
-("end_time_admission", "2023-08-01 00:00:00");
+("end_time_admission", "2023-08-01 00:00:00"),
+("call_total_score_student", "false");
 

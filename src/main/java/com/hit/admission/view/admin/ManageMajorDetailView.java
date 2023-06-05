@@ -4,7 +4,10 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.hit.admission.job.CongBoDiemChuanJob;
 import com.hit.admission.components.dialog.ConfirmDialog;
 import com.hit.admission.components.table.TableHeader;
+import com.hit.admission.constants.SettingConstant;
+import com.hit.admission.controller.AdmissionController;
 import com.hit.admission.controller.MajorDetailController;
+import com.hit.admission.controller.SettingController;
 import com.hit.admission.dto.CommonResponse;
 import com.hit.admission.dto.MajorDetailDTO;
 import com.hit.admission.dto.ReadFileExcelResponse;
@@ -43,13 +46,18 @@ import org.quartz.impl.StdSchedulerFactory;
 public class ManageMajorDetailView extends javax.swing.JPanel {
 
     private final MajorDetailController majorDetailController;
+    
+    private final AdmissionController admissionController;
+    
+    private final SettingController settingController;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public ManageMajorDetailView() {
         initComponents();
         this.majorDetailController = new MajorDetailController();
-
+        this.admissionController = new AdmissionController();
+        this.settingController = new SettingController();
         jImport.setText("Import dữ liệu " + LocalDate.now().getYear());
         tableMajor.setTableHeader(TableHeader.customTableHeader(tableMajor.getTableHeader()));
 
@@ -191,17 +199,18 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
         jExport = new javax.swing.JButton();
         jImport = new javax.swing.JButton();
         jCongBoDiem = new javax.swing.JButton();
+        jCapNhatDiemThi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
         tableMajor = new javax.swing.JTable();
 
-        jLabel8.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel8.setText("Chọn thời gian công bố điểm chuẩn");
+        jLabel8.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
 
+        jBtnXacNhan.setText("Xác nhận");
         jBtnXacNhan.setBackground(new java.awt.Color(66, 133, 244));
         jBtnXacNhan.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
         jBtnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
-        jBtnXacNhan.setText("Xác nhận");
         jBtnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnXacNhanActionPerformed(evt);
@@ -251,55 +260,55 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
             .addComponent(panelBorder2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel2.setText("ID");
+        jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
         jId.setFocusable(false);
 
-        jLabel3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel3.setText("Mã ngành");
+        jLabel3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
         jMaNganh.setFocusable(false);
 
-        jLabel4.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel4.setText("Tên ngành");
+        jLabel4.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
         jTenNganh.setFocusable(false);
 
-        jLabel5.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel5.setText("Khối");
+        jLabel5.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
         jKhoi.setFocusable(false);
 
-        jLabel6.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel6.setText("Chỉ tiêu");
+        jLabel6.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jLabel7.setText("Điểm chuẩn");
+        jLabel7.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jSua.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Edit.png"))); // NOI18N
         jSua.setText("Tạo/Sửa");
+        jSua.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSuaActionPerformed(evt);
             }
         });
 
-        jXoa.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Delete.png"))); // NOI18N
         jXoa.setText("Xóa");
+        jXoa.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXoaActionPerformed(evt);
             }
         });
 
-        jClear.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Refresh.png"))); // NOI18N
         jClear.setText("Làm mới");
+        jClear.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         jClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jClearActionPerformed(evt);
@@ -332,6 +341,13 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
             }
         });
 
+        jCapNhatDiemThi.setText("Lấy điểm thi của sinh viên");
+        jCapNhatDiemThi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCapNhatDiemThiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -353,9 +369,11 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(343, 343, 343)
                         .addComponent(jFilterYear, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCapNhatDiemThi)
+                .addGap(18, 18, 18)
                 .addComponent(jCongBoDiem)
                 .addGap(18, 18, 18)
                 .addComponent(jExport)
@@ -371,7 +389,8 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
                     .addComponent(jImport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jExport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCongBoDiem)))
+                        .addComponent(jCongBoDiem)
+                        .addComponent(jCapNhatDiemThi)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
@@ -384,8 +403,8 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jLabel1.setText("Quản lý tuyển sinh");
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 22)); // NOI18N
-        jLabel1.setText("Quản lý chi tiết chuyên ngành");
 
         tableMajor.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
         tableMajor.setModel(new javax.swing.table.DefaultTableModel(
@@ -452,9 +471,9 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
                     .addComponent(jTenNganh, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(30, 30, 30))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
-                .addGap(304, 304, 304)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(271, 271, 271))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,6 +568,10 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Cần cập nhật điểm chuẩn cho các ngành tuyển sinh (Đã có chỉ tiêu tuyển sinh)!");
             return;
         }
+        if(settingController.getSettingByKey(SettingConstant.CALL_TOTAL_SCORE_STUDENT).getValue().equals("false")) {
+            JOptionPane.showMessageDialog(this, "Cần lấy điểm thi của sinh viên trước khi công bố điểm chuẩn!");
+            return;
+        }
         try {
             setupDialog();
         } catch (Exception ex) {
@@ -631,8 +654,20 @@ public class ManageMajorDetailView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jBtnXacNhanActionPerformed
 
+    private void jCapNhatDiemThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCapNhatDiemThiActionPerformed
+        try {
+            admissionController.randomTotalScoreStudentByBlock(LocalDate.now().getYear());
+            new ConfirmDialog(null, "Thành công", "Lấy điểm thi của sinh viên thành công");
+            settingController.updateSetting(SettingConstant.CALL_TOTAL_SCORE_STUDENT, "true");
+        } catch(Exception e) {
+            e.printStackTrace();
+            return;
+        } 
+    }//GEN-LAST:event_jCapNhatDiemThiActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnXacNhan;
+    private javax.swing.JButton jCapNhatDiemThi;
     private javax.swing.JTextField jChiTieu;
     private javax.swing.JDialog jChonThoiGian;
     private javax.swing.JButton jClear;
