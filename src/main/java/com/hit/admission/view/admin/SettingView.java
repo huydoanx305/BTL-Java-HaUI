@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class SettingView extends javax.swing.JPanel {
 
     private final SettingController settingController;
-    
+
     private final StudentController studentController;
 
     private final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -28,7 +28,7 @@ public class SettingView extends javax.swing.JPanel {
         initComponents();
         this.settingController = new SettingController();
         this.studentController = new StudentController();
-        
+
         setupDateTimePicker();
         loadSettings();
     }
@@ -190,7 +190,7 @@ public class SettingView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Thời gian kết thúc phải lớn hơn thời gian bắt đầu!");
                 return;
             }
-            
+
             CommonResponse commonResponse1 = settingController.updateSetting(SettingConstant.START_TIME_ADMISSION, start);
             CommonResponse commonResponse2 = settingController.updateSetting(SettingConstant.END_TIME_ADMISSION, end);
             if (commonResponse1.getStatus().equals(Boolean.TRUE) && commonResponse2.getStatus().equals(Boolean.TRUE)) {
@@ -217,6 +217,7 @@ public class SettingView extends javax.swing.JPanel {
                 CommonResponse response = studentController.lockStudents();
                 if (response.getStatus().equals(Boolean.TRUE)) {
                     new ConfirmDialog(null, "Khóa thành công", response.getMessage());
+                    settingController.updateSetting(SettingConstant.CALL_TOTAL_SCORE_STUDENT, "false");
                 } else {
                     JOptionPane.showMessageDialog(null, response.getMessage());
                 }
